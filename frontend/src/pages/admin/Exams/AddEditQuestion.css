@@ -1,0 +1,36 @@
+
+  
+  /* Media query for larger screens */
+  @media (min-width: 1024px) {
+    .gap-4 {
+      gap: 4rem; /* Adjust gap for larger screens */
+    }
+  }
+  
+@media (max-width: 768px) {
+    .ant-modal {
+      width: 100% !important;
+      padding: 0;
+    }
+  
+    .ant-modal-body {
+      padding: 10px;
+    }
+  
+    .ant-form-item {
+      margin-bottom: 8px;
+    }
+  
+    .flex.gap-2 {
+      flex-direction: column;
+    }
+  
+    .primary-contained-btn, .primary-outlined-btn {
+      width: 100%;
+    }
+  }
+  @media (min-width: 1024px) {
+    .gap-4 {
+      gap: 4rem; 
+    }
+  }
