@@ -9,7 +9,7 @@
 * Timer functionality for Exam Sessions.
 * Live Result Functionality after writting the exams.
 * Storing the results into Mongo DB.
-* Separate Reports / Analatics functionality for both Admin and User.
+* Separate Reports / Analatics functionality for both Admin and User
 
 ## Tech Stack Used:
 #### Front-End:
