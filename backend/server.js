@@ -699,6 +699,7 @@
 
 const express = require('express');
 const mongoose = require('mongoose');
+const nodemailer = require('nodemailer');
 require('dotenv').config();
 const bodyParser = require('body-parser');
 const cors = require('cors'); // Importing CORS
@@ -708,6 +709,8 @@ const Question = require('./models/Question');
 const Quiz = require('./models/Quiz');
 const Answer = require('./models/Answer');
 const userRoute = require("./routes/userRoutes");
+// const emailRoutes = require("./routes/emailRoutes"); // Import the email routes
+
 
 const app = express();
 const PORT = 3000;
@@ -718,6 +721,7 @@ app.use(bodyParser.json());
 app.use(express.json());
 
 app.use("/api/users", userRoute);
+// app.use("/api/email", emailRoutes); // Use the email routes
 
 // MongoDB Connection
 mongoose.connect('mongodb://localhost:27017/quizdb', {
@@ -731,17 +735,96 @@ mongoose.connect('mongodb://localhost:27017/quizdb', {
 
 // Routes
 
-// // 1. Create a new quiz
-// app.post('/quiz', async (req, res) => {
-//     try {
-//         const { title } = req.body;
-//         const quiz = new Quiz({ title });
-//         await quiz.save();
-//         res.status(201).json(quiz);
-//     } catch (error) {
-//         res.status(500).json({ message: error.message });
-//     }
-// });
+// Setup Nodemailer transport
+// nodemailer is used for sending emails , gmail mai jao ,2step verification on,karo, then,app passowrd,mai jake ,create app name
+// then ,passowrd milega ,usme se space remove kar dena, aur password ko ,pass ki jagah lik dena ,jaise neeche lik ra
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    secure:true,
+    port:465,
+    auth: {
+      user: 'aayusharma9009@gmail.com',
+      pass: 'vegrxnmdqxdiuxnn'
+    }
+  });
+app.post('/sendResults', async (req, res) => {
+    // console.log("tututututuu")
+    const { email, quizTitle, results } = req.body;
+  
+  
+    if (!email || !quizTitle || !results) {
+      return res.status(400).json({ message: 'Missing required fields' });
+    }
+
+    // console.log(email);
+    // console.log(quizTitle);
+    // console.log(results);
+  
+    // const mailOptions = {
+    //   from: 'aayusharma90009@gmail.com',
+    //   to: email,
+    // //   to: "aayusharma90009@gmail.com",
+    //   subject: `Your Results for ${quizTitle} Quiz`,
+    //   text: `
+    //     Thank you for attempting the ${quizTitle} quiz.
+    //     Below is your score for this quiz:
+  
+    //     Technical Skills Marks: ${results.technical}
+    //     Human Skills Marks: ${results.human}
+    //     Conceptual Skills Marks: ${results.conceptual}
+  
+    //     Thank you,
+    //     Team Samvit
+    //   `,
+    // };
+    const mailOptions = {
+        from: 'aayusharma90009@gmail.com',
+        to: email,
+        subject: `Your Results for ${quizTitle} Quiz`,
+        html: `
+          <html>
+            <body style="font-family: Arial, sans-serif; color: #333; padding: 20px; background-color: #f4f4f4;">
+              <div style="max-width: 600px; margin: 0 auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+                <h2 style="color: #007bff;">Thank You for Attempting the ${quizTitle} Quiz!</h2>
+                <p>Below are your results:</p>
+                <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+                  <tr style="background-color: #f9f9f9;">
+                    <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Category</th>
+                    <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Marks</th>
+                  </tr>
+                  <tr>
+                    <td style="padding: 10px; border-bottom: 1px solid #ddd;">Technical Skills</td>
+                    <td style="padding: 10px; border-bottom: 1px solid #ddd;">${results.technical}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 10px; border-bottom: 1px solid #ddd;">Human Skills</td>
+                    <td style="padding: 10px; border-bottom: 1px solid #ddd;">${results.human}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 10px; border-bottom: 1px solid #ddd;">Conceptual Skills</td>
+                    <td style="padding: 10px;">${results.conceptual}</td>
+                  </tr>
+                </table>
+                <p style="margin-top: 20px;">Thank you for participating in our quiz. We hope you found it insightful.</p>
+                <p>Best Regards,<br>Samvit Shikshan Private Limited</p>
+              </div>
+            </body>
+          </html>
+        `,
+      };
+      
+    //  console.log(mailOptions);
+    try {
+      await transporter.sendMail(mailOptions);
+      res.status(200).send('Email sent successfully');
+    } catch (error) {
+      res.status(500).send('Failed to send email');
+    }
+
+
+  });
+  
+  
 // 1. Create a new quiz
 app.post('/quiz', async (req, res) => {
     try {
@@ -976,6 +1059,66 @@ app.get('/quiz/:quizId', async (req, res) => {
 });
 
 // Submit answers for a specific quiz
+// app.post('/quiz/:quizId/submit', async (req, res) => {
+//     try {
+//         const { quizId } = req.params;
+//         const { userId, answers } = req.body;
+
+
+//         // console.log(quizId);
+//         // console.log(userId);
+//         // console.log(answers);
+
+//         // Validate answers array
+//         if (!Array.isArray(answers) || answers.length === 0) {
+//             console.log("No answers provided");
+//             return res.status(400).json({ message: 'No answers provided' });
+//         }
+
+//         // Save each answer
+//         const answerPromises = answers.map(async (answer) => {
+//             const { questionId, selectedOption } = answer;
+
+//             // Find the question to get the correct option and marks
+//             const question = await Question.findById(questionId);
+//             console.log("minto");
+//             console.log(question);
+//             if (!question) {
+//                 throw new Error(`Question with ID ${questionId} not found`);
+//             }
+
+//             const selectedOptionData = question.options[selectedOption];
+//             if (!selectedOptionData) {
+//                 throw new Error(`Option with index ${selectedOption} not found for question ${questionId}`);
+//             }
+
+//             // Create a new answer entry
+//             const userAnswer = new Answer({
+//                 userId,
+//                 quizId,
+//                 questionId,
+//                 selectedOption,
+//                 marksObtained: selectedOptionData.marks,
+//                 category: question.category
+//             });
+
+//             return userAnswer.save();
+//         });
+
+//         const savedAnswers = await Promise.all(answerPromises);
+
+//         // Generate report with both userId and quizId
+//         const report = await generateReport(userId, quizId);
+
+//         res.status(201).json({
+//             message: 'Answers submitted successfully',
+//             savedAnswers,
+//             report
+//         });
+//     } catch (error) {
+//         res.status(500).json({ message: error.message });
+//     }
+// });
 app.post('/quiz/:quizId/submit', async (req, res) => {
     try {
         const { quizId } = req.params;
@@ -990,16 +1133,23 @@ app.post('/quiz/:quizId/submit', async (req, res) => {
         const answerPromises = answers.map(async (answer) => {
             const { questionId, selectedOption } = answer;
 
+            // Check if the questionId is a valid ObjectId
+            if (!mongoose.Types.ObjectId.isValid(questionId)) {
+                throw new Error(`Invalid Question ID ${questionId}`);
+            }
+
             // Find the question to get the correct option and marks
             const question = await Question.findById(questionId);
             if (!question) {
                 throw new Error(`Question with ID ${questionId} not found`);
             }
 
-            const selectedOptionData = question.options[selectedOption];
-            if (!selectedOptionData) {
-                throw new Error(`Option with index ${selectedOption} not found for question ${questionId}`);
+            // Validate selectedOption index
+            if (selectedOption < 0 || selectedOption >= question.options.length) {
+                throw new Error(`Invalid selectedOption ${selectedOption} for question ${questionId}`);
             }
+
+            const selectedOptionData = question.options[selectedOption];
 
             // Create a new answer entry
             const userAnswer = new Answer({
@@ -1008,7 +1158,7 @@ app.post('/quiz/:quizId/submit', async (req, res) => {
                 questionId,
                 selectedOption,
                 marksObtained: selectedOptionData.marks,
-                category: question.category
+                category: question.category,
             });
 
             return userAnswer.save();
@@ -1022,12 +1172,13 @@ app.post('/quiz/:quizId/submit', async (req, res) => {
         res.status(201).json({
             message: 'Answers submitted successfully',
             savedAnswers,
-            report
+            report,
         });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 });
+
 
 // delete a quiz by particular id
 // Delete a quiz by ID
@@ -1152,6 +1303,249 @@ app.post('/quiz/:quizId/answer', async (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
+
+
+// const express = require('express');
+// const mongoose = require('mongoose');
+// require('dotenv').config();
+// const bodyParser = require('body-parser');
+// const cors = require('cors');
+
+// // Import the models
+// const Question = require('./models/Question');
+// const Quiz = require('./models/Quiz');
+// const Answer = require('./models/Answer');
+// const userRoute = require("./routes/userRoutes");
+// const emailRoute = require("./routes/emailRoutes"); // Import the email routes
+
+// const app = express();
+// const PORT = 3000;
+
+// // Middleware
+// app.use(cors()); // Enabling CORS for all routes
+// app.use(bodyParser.json());
+// app.use(express.json());
+
+// app.use("/api/users", userRoute);
+// app.use("/api/email", emailRoute); // Use the email routes
+
+// // MongoDB Connection
+// mongoose.connect('mongodb://localhost:27017/quizdb', {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true
+// }).then(() => {
+//     console.log('Connected to MongoDB');
+// }).catch((err) => {
+//     console.error('MongoDB connection error:', err);
+// });
+
+// // Routes
+
+// app.post('/quiz', async (req, res) => {
+//     try {
+//         const { title } = req.body;
+//         if (!title) {
+//             return res.status(400).json({ message: 'Title is required' });
+//         }
+//         const quiz = new Quiz({ title });
+//         await quiz.save();
+//         res.status(201).json(quiz);
+//     } catch (error) {
+//         console.error('Error creating quiz:', error);
+//         res.status(500).json({ message: 'Internal Server Error', error: error.message });
+//     }
+// });
+
+// app.post('/quiz/:quizId/questions', async (req, res) => {
+//     try {
+//         const { quizId } = req.params;
+//         console.log('Received quizId:', quizId); // Debugging log
+        
+//         if (!quizId || !mongoose.Types.ObjectId.isValid(quizId)) {
+//             console.error('Invalid quiz ID received:', quizId); // More detailed error log
+//             return res.status(400).json({ message: 'Invalid quiz ID' });
+//         }
+
+//         const questionData = req.body; // Expecting a single question object
+//         console.log('Received questionData:', questionData); // Debugging log
+
+//         const { questionText, options, category } = questionData;
+
+//         if (!questionText || !options || options.length === 0 || !category) {
+//             return res.status(400).json({ message: 'Each question must have text, options, and a category.' });
+//         }
+
+//         const quiz = await Quiz.findById(quizId);
+//         if (!quiz) {
+//             return res.status(404).json({ message: 'Quiz not found.' });
+//         }
+
+//         const question = new Question({
+//             questionText,
+//             options,
+//             category
+//         });
+//         await question.save();
+
+//         quiz.questions.push(question._id);
+//         await quiz.save();
+
+//         res.status(201).json({ message: 'Question added successfully', questionId: question._id });
+//     } catch (error) {
+//         console.error('Error adding question:', error); // Debugging log
+//         res.status(500).json({ message: error.message });
+//     }
+// });
+
+// app.get('/quiz/:quizId', async (req, res) => {
+//     try {
+//         const { quizId } = req.params;
+//         const quiz = await Quiz.findById(quizId).populate('questions');
+//         if (!quiz) {
+//             return res.status(404).json({ message: 'Quiz not found' });
+//         }
+//         res.status(200).json(quiz);
+//     } catch (error) {
+//         res.status(500).json({ message: error.message });
+//     }
+// });
+
+// app.post('/quiz/:quizId/submit', async (req, res) => {
+//     try {
+//         const { quizId } = req.params;
+//         const { userId, answers } = req.body;
+
+//         // Validate answers array
+//         if (!Array.isArray(answers) || answers.length === 0) {
+//             return res.status(400).json({ message: 'No answers provided' });
+//         }
+
+//         // Save each answer
+//         const answerPromises = answers.map(async (answer) => {
+//             const { questionId, selectedOption } = answer;
+
+//             // Check if the questionId is a valid ObjectId
+//             if (!mongoose.Types.ObjectId.isValid(questionId)) {
+//                 throw new Error(`Invalid Question ID ${questionId}`);
+//             }
+
+//             // Find the question to get the correct option and marks
+//             const question = await Question.findById(questionId);
+//             if (!question) {
+//                 throw new Error(`Question with ID ${questionId} not found`);
+//             }
+
+//             // Validate selectedOption index
+//             if (selectedOption < 0 || selectedOption >= question.options.length) {
+//                 throw new Error(`Invalid selectedOption ${selectedOption} for question ${questionId}`);
+//             }
+
+//             const selectedOptionData = question.options[selectedOption];
+
+//             // Create a new answer entry
+//             const userAnswer = new Answer({
+//                 userId,
+//                 quizId,
+//                 questionId,
+//                 selectedOption,
+//                 marksObtained: selectedOptionData.marks,
+//                 category: question.category,
+//             });
+
+//             return userAnswer.save();
+//         });
+
+//         const savedAnswers = await Promise.all(answerPromises);
+
+//         // Generate report with both userId and quizId
+//         const report = await generateReport(userId, quizId);
+
+//         res.status(201).json({
+//             message: 'Answers submitted successfully',
+//             savedAnswers,
+//             report,
+//         });
+//     } catch (error) {
+//         res.status(500).json({ message: error.message });
+//     }
+// });
+
+// app.delete('/quiz/:quizId', async (req, res) => {
+//     try {
+//         const { quizId } = req.params;
+
+//         // Validate quizId
+//         if (!quizId || !mongoose.Types.ObjectId.isValid(quizId)) {
+//             return res.status(400).json({
+//                 success: false,
+//                 message: 'Invalid quiz ID'
+//             });
+//         }
+
+//         // Find and delete the quiz
+//         const quiz = await Quiz.findByIdAndDelete(quizId);
+//         if (!quiz) {
+//             return res.status(404).json({
+//                 success: false,
+//                 message: 'Quiz not found'
+//             });
+//         }
+
+//         // Optionally: Delete all associated questions
+//         await Question.deleteMany({ _id: { $in: quiz.questions } });
+
+//         return res.status(200).json({
+//             success: true,
+//             message: 'Quiz and associated questions deleted successfully'
+//         });
+//     } catch (error) {
+//         return res.status(500).json({
+//             success: false,
+//             message: 'Internal server error',
+//             error: error.message
+//         });
+//     }
+// });
+
+// const generateReport = async (userId, quizId) => {
+//     try {
+//         const results = await Answer.aggregate([
+//             { $match: { userId: mongoose.Types.ObjectId(userId), quizId: mongoose.Types.ObjectId(quizId) } },
+//             { $group: { _id: "$category", totalScore: { $sum: "$marksObtained" } } }
+//         ]);
+
+//         const report = {};
+//         results.forEach(result => {
+//             if (result._id) {
+//                 report[result._id] = result.totalScore;
+//             } else {
+//                 report['Uncategorized'] = (report['Uncategorized'] || 0) + result.totalScore;
+//             }
+//         });
+
+//         return report;
+//     } catch (error) {
+//         throw new Error('Error generating report: ' + error.message);
+//     }
+// };
+
+// app.get('/quiz/:quizId/answers/:userId', async (req, res) => {
+//     try {
+//         const { quizId, userId } = req.params;
+//         const answers = await Answer.find({ quizId, userId }).populate('questionId');
+//         if (!answers) {
+//             return res.status(404).json({ message: 'No answers found' });
+//         }
+//         res.status(200).json(answers);
+//     } catch (error) {
+//         res.status(500).json({ message: error.message });
+//     }
+// });
+
+// app.listen(PORT, () => {
+//     console.log(`Server is running on port ${PORT}`);
+// });
+
 
 
 

@@ -702,13 +702,1077 @@
 
 
 
+// import React, { useState, useEffect } from 'react';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { useNavigate, useParams } from 'react-router-dom';
+// import { getExamById } from '../../../apicalls/exams';
+// import { HideLoading, ShowLoading } from '../../../redux/loaderSlice';
+// import { message } from 'antd';
+// import Instructions from './Instructions';
+
+// function WriteExam() {
+//   const [examData, setExamData] = useState();
+//   const [questions, setQuestions] = useState([]);
+//   const [selectedQuestionIndex, setSelectedQuestionIndex] = useState(0);
+//   const [selectedOptions, setSelectedOptions] = useState({});
+//   const { id } = useParams();
+//   const dispatch = useDispatch();
+//   const [view, setView] = useState("instructions");
+//   const { user } = useSelector(state => state.users);
+//   const navigate = useNavigate();
+
+//   // Fetch exam data by ID
+//   const getExamDataById = async (id) => {
+//     try {
+//       dispatch(ShowLoading());
+//       const response = await getExamById(id);
+//       dispatch(HideLoading());
+
+//       if (response) {
+//         setExamData(response);
+//         console.log("i am question section");
+//         // console.log(response.questions);
+        
+//         const questionTexts = response.questions.map(question => question.questionText);
+//         console.log("Questions:", questionTexts);
+//         setQuestions(questionTexts);
+//       } else {
+//         message.error("Failed to load exam data.");
+//       }
+//     } catch (error) {
+//       dispatch(HideLoading());
+//       message.error("An error occurred while fetching exam data.");
+//     }
+//   };
+
+//   useEffect(() => {
+//     if (id) {
+//       getExamDataById(id);
+//     }
+//   }, [id]);
+
+//   const optionLabels = [
+//     "Not True",
+//     "Seldom True",
+//     "Occasionally True",
+//     "Somewhat True",
+//     "Very True"
+//   ];
+
+//   return (
+//     examData && (
+//       <div className='mt-2'>
+//         <div className='divider'></div>
+//         <h1 className='text-center'>{examData.name}</h1>
+//         <div className='divider'></div>
+
+//         {view === "instructions" && (
+//           <Instructions
+//             examData={examData}
+//             setExamData={setExamData}
+//             view={view}
+//             setView={setView}
+//           />
+//         )}
+
+//         {view === "questions" && questions.length > 0 && (
+//           <div className='flex flex-col gap-2 mt-2'>
+//             <div className='flex justify-between'>
+//               <h1 className='text-2xl'>
+//                 {selectedQuestionIndex + 1} : {questions[selectedQuestionIndex].name}
+//               </h1>
+//             </div>
+
+//             <div className='flex flex-col gap-2'>
+//               {optionLabels.map((label, index) => {
+//                 return (
+//                   <div
+//                     className={`flex gap-2 items-center ${
+//                       selectedOptions[selectedQuestionIndex] === label ? 'selected-option' : 'option'
+//                     }`}
+//                     key={index}
+//                     onClick={() => {
+//                       setSelectedOptions({
+//                         ...selectedOptions,
+//                         [selectedQuestionIndex]: label,
+//                       });
+//                     }}
+//                   >
+//                     <h1 className='text-xl'>
+//                       {label}
+//                     </h1>
+//                   </div>
+//                 );
+//               })}
+//             </div>
+
+//             <div className='flex justify-between'>
+//               {selectedQuestionIndex > 0 && (
+//                 <button
+//                   className='primary-outlined-btn'
+//                   onClick={() => {
+//                     setSelectedQuestionIndex(selectedQuestionIndex - 1);
+//                   }}
+//                 >
+//                   Previous
+//                 </button>
+//               )}
+//               {selectedQuestionIndex < questions.length - 1 && (
+//                 <button
+//                   className='primary-contained-btn'
+//                   onClick={() => {
+//                     setSelectedQuestionIndex(selectedQuestionIndex + 1);
+//                   }}
+//                 >
+//                   Next
+//                 </button>
+//               )}
+//               {selectedQuestionIndex === questions.length - 1 && (
+//                 <button
+//                   className='primary-contained-btn'
+//                   onClick={() => {
+//                     // Submit logic here, backend will handle the marks based on the selected options
+//                     message.success("Quiz completed! (Submit logic will handle results)");
+//                   }}
+//                 >
+//                   Submit
+//                 </button>
+//               )}
+//             </div>
+//           </div>
+//         )}
+//       </div>
+//     )
+//   );
+// }
+
+// export default WriteExam;
+
+
+
+// import React, { useState, useEffect } from 'react';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { useNavigate, useParams } from 'react-router-dom';
+// import { getExamById } from '../../../apicalls/exams';
+// import { HideLoading, ShowLoading } from '../../../redux/loaderSlice';
+// import { message } from 'antd';
+// import Instructions from './Instructions';
+
+// function WriteExam() {
+//   const [examData, setExamData] = useState();
+//   const [questions, setQuestions] = useState([]);
+//   const [selectedQuestionIndex, setSelectedQuestionIndex] = useState(0);
+//   const [selectedOptions, setSelectedOptions] = useState({});
+//   const { id } = useParams();
+//   const dispatch = useDispatch();
+//   const [view, setView] = useState("instructions");
+//   const { user } = useSelector(state => state.users);
+//   const navigate = useNavigate();
+
+//   // Fetch exam data by ID
+//   const getExamDataById = async (id) => {
+//     try {
+//       dispatch(ShowLoading());
+//       const response = await getExamById(id);
+//       dispatch(HideLoading());
+
+//       if (response) {
+//         setExamData(response);
+//         console.log("i am question section");
+//         // Set full questions array instead of just questionText
+//         setQuestions(response.questions);
+//       } else {
+//         message.error("Failed to load exam data.");
+//       }
+//     } catch (error) {
+//       dispatch(HideLoading());
+//       message.error("An error occurred while fetching exam data.");
+//     }
+//   };
+
+//   useEffect(() => {
+//     if (id) {
+//       getExamDataById(id);
+//     }
+//   }, [id]);
+
+//   const optionLabels = [
+//     "Not True",
+//     "Seldom True",
+//     "Occasionally True",
+//     "Somewhat True",
+//     "Very True"
+//   ];
+
+//   return (
+//     examData && (
+//       <div className='mt-2'>
+//         <div className='divider'></div>
+//         <h1 className='text-center'>{examData.name}</h1>
+//         <div className='divider'></div>
+
+//         {view === "instructions" && (
+//           <Instructions
+//             examData={examData}
+//             setExamData={setExamData}
+//             view={view}
+//             setView={setView}
+//           />
+//         )}
+
+//         {view === "questions" && questions.length > 0 && (
+//           <div className='flex flex-col gap-2 mt-2'>
+//             <div className='flex justify-between'>
+//               <h1 className='text-2xl'>
+//                 {selectedQuestionIndex + 1} : {questions[selectedQuestionIndex].questionText}
+//               </h1>
+//             </div>
+
+//             <div className='flex flex-col gap-2'>
+//               {optionLabels.map((label, index) => {
+//                 return (
+//                   <div
+//                     className={`flex gap-2 items-center ${
+//                       selectedOptions[selectedQuestionIndex] === label ? 'selected-option' : 'option'
+//                     }`}
+//                     key={index}
+//                     onClick={() => {
+//                       setSelectedOptions({
+//                         ...selectedOptions,
+//                         [selectedQuestionIndex]: label,
+//                       });
+//                     }}
+//                   >
+//                     <h1 className='text-xl'>
+//                       {label}
+//                     </h1>
+//                   </div>
+//                 );
+//               })}
+//             </div>
+
+//             <div className='flex justify-between'>
+//               {selectedQuestionIndex > 0 && (
+//                 <button
+//                   className='primary-outlined-btn'
+//                   onClick={() => {
+//                     setSelectedQuestionIndex(selectedQuestionIndex - 1);
+//                   }}
+//                 >
+//                   Previous
+//                 </button>
+//               )}
+//               {selectedQuestionIndex < questions.length - 1 && (
+//                 <button
+//                   className='primary-contained-btn'
+//                   onClick={() => {
+//                     setSelectedQuestionIndex(selectedQuestionIndex + 1);
+//                   }}
+//                 >
+//                   Next
+//                 </button>
+//               )}
+//               {selectedQuestionIndex === questions.length - 1 && (
+//                 <button
+//                   className='primary-contained-btn'
+//                   onClick={() => {
+//                     // Submit logic here, backend will handle the marks based on the selected options
+//                     message.success("Quiz completed! (Submit logic will handle results)");
+//                   }}
+//                 >
+//                   Submit
+//                 </button>
+//               )}
+//             </div>
+//           </div>
+//         )}
+//       </div>
+//     )
+//   );
+// }
+
+// export default WriteExam;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import React, { useState, useEffect } from 'react';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { useNavigate, useParams } from 'react-router-dom';
+// import { getExamById } from '../../../apicalls/exams';
+// import { HideLoading, ShowLoading } from '../../../redux/loaderSlice';
+// import { message } from 'antd';
+// import Instructions from './Instructions';
+// import axios from 'axios';
+
+// function WriteExam() {
+//   const [examData, setExamData] = useState();
+//   const [questions, setQuestions] = useState([]);
+//   const [selectedQuestionIndex, setSelectedQuestionIndex] = useState(0);
+//   const [selectedOptions, setSelectedOptions] = useState({});
+//   const { id } = useParams();
+//   const dispatch = useDispatch();
+//   const [view, setView] = useState('instructions');
+//   const { user } = useSelector(state => state.users);
+//   const navigate = useNavigate();
+
+//   const optionLabels = [
+//     'Not True',
+//     'Seldom True',
+//     'Occasionally True',
+//     'Somewhat True',
+//     'Very True',
+//   ];
+
+//   // Fetch exam data by ID
+//   const getExamDataById = async (id) => {
+//     try {
+//       dispatch(ShowLoading());
+//       const response = await getExamById(id);
+//       dispatch(HideLoading());
+
+//       if (response) {
+//         setExamData(response);
+//         setQuestions(response.questions);
+//       } else {
+//         message.error('Failed to load exam data.');
+//       }
+//     } catch (error) {
+//       dispatch(HideLoading());
+//       message.error('An error occurred while fetching exam data.');
+//     }
+//   };
+
+//   useEffect(() => {
+//     if (id) {
+//       getExamDataById(id);
+//     }
+//   }, [id]);
+
+//   // Function to handle quiz submission
+//   // const submitQuiz = async () => {
+//   //   const answers = Object.keys(selectedOptions).map((questionIndex) => ({
+//   //     questionId: questions[questionIndex]._id,
+//   //     selectedOption: selectedOptions[questionIndex].label,
+//   //   }));
+
+//   //   try {
+//   //     dispatch(ShowLoading());
+//   //     console.log(id);
+//   //     const response = await axios.post(`/quiz/${id}/submit`, {
+//   //       userId: user._id,
+//   //       answers,
+//   //     });
+//   //     console.log("submit quiz hoon mai");
+//   //     console.log(response);
+//   //     dispatch(HideLoading());
+
+//   //     if (response.data) {
+//   //       message.success('Quiz submitted successfully');
+//   //       // Show the report (example logic, adjust based on actual structure)
+//   //       console.log('Report:', response.data.report);
+//   //       // navigate('/report', { state: { report: response.data.report } });
+//   //     }
+//   //   } catch (error) {
+//   //     dispatch(HideLoading());
+//   //     message.error('Failed to submit quiz');
+//   //   }
+//   // };
+//   // Function to calculate and categorize result
+// const calculateResult = () => {
+//   const categoryScores = {
+//     technical: 0,
+//     human: 0,
+//     conceptual: 0,
+//   };
+
+//   questions.forEach((question, index) => {
+//     const selectedOption = selectedOptions[index];
+//     if (selectedOption) {
+//       // Add marks to the corresponding category based on the question's category
+//       switch (question.category) {
+//         case 'Technical Skills':
+//           categoryScores.technical += selectedOption.marks;
+//           break;
+//         case 'Human Skills':
+//           categoryScores.human += selectedOption.marks;
+//           break;
+//         case 'Conceptual Skills':
+//           categoryScores.conceptual += selectedOption.marks;
+//           break;
+//         default:
+//           break;
+//       }
+//     }
+//   });
+
+//   // Set result view with calculated scores
+//   setResult(categoryScores);
+//   setView("result");
+
+//   // Optionally, save the result to the server
+//   // saveResult(categoryScores);
+// };
+//   const submitQuiz = async () => {
+//     const answers = Object.keys(selectedOptions).map((questionIndex) => ({
+//       questionId: questions[questionIndex]._id,
+//       selectedOption: selectedOptions[questionIndex].label,
+//     }));
+  
+//     try {
+//       dispatch(ShowLoading());
+//       const response = await axios.post(`/quiz/${id}/submit`, {
+//         userId: user._id,
+//         answers,
+//       });
+  
+//       if (response.data) {
+//         // Calculate result after successful submission
+//         calculateResult();
+//       }
+  
+//       dispatch(HideLoading());
+//     } catch (error) {
+//       dispatch(HideLoading());
+//       message.error('Failed to submit quiz');
+//     }
+//   };
+  
+//   return (
+//     examData && (
+//       <div className='mt-2'>
+//         <div className='divider'></div>
+//         <h1 className='text-center'>{examData.name}</h1>
+//         <div className='divider'></div>
+
+//         {view === 'instructions' && (
+//           <Instructions
+//             examData={examData}
+//             setExamData={setExamData}
+//             view={view}
+//             setView={setView}
+//           />
+//         )}
+
+//         {view === 'questions' && questions.length > 0 && (
+//           <div className='flex flex-col gap-2 mt-2'>
+//             <div className='flex justify-between'>
+//               <h1 className='text-2xl'>
+//                 {selectedQuestionIndex + 1} : {questions[selectedQuestionIndex].questionText}
+//               </h1>
+//             </div>
+
+//             <div className='flex flex-col gap-2'>
+//               {questions[selectedQuestionIndex].options.map((option, index) => (
+//                 <div
+//                   key={index}
+//                   className={`flex gap-2 items-center ${
+//                     selectedOptions[selectedQuestionIndex]?.label === option.label ? 'selected-option' : 'option'
+//                   }`}
+//                   onClick={() => {
+//                     setSelectedOptions({
+//                       ...selectedOptions,
+//                       [selectedQuestionIndex]: {
+//                         label: option.label,
+//                         marks: option.marks,
+//                       },
+//                     });
+//                   }}
+//                 >
+//                   <h1 className='text-xl'>
+//                     {optionLabels[index]} ({option.marks} Marks)
+//                   </h1>
+//                 </div>
+//               ))}
+//             </div>
+
+//             <div className='flex justify-between'>
+//               {selectedQuestionIndex > 0 && (
+//                 <button
+//                   className='primary-outlined-btn'
+//                   onClick={() => {
+//                     setSelectedQuestionIndex(selectedQuestionIndex - 1);
+//                   }}
+//                 >
+//                   Previous
+//                 </button>
+//               )}
+//               {selectedQuestionIndex < questions.length - 1 && (
+//                 <button
+//                   className='primary-contained-btn'
+//                   onClick={() => {
+//                     setSelectedQuestionIndex(selectedQuestionIndex + 1);
+//                   }}
+//                 >
+//                   Next
+//                 </button>
+//               )}
+//               {selectedQuestionIndex === questions.length - 1 && (
+//                 <button
+//                   className='primary-contained-btn'
+//                   onClick={submitQuiz}
+//                 >
+//                   Submit
+//                 </button>
+//               )}
+//             </div>
+//           </div>
+//         )}
+//       </div>
+//     )
+//   );
+// }
+
+// export default WriteExam;
+
+
+
+
+
+// import React, { useState, useEffect } from 'react';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { useNavigate, useParams } from 'react-router-dom';
+// import { getExamById } from '../../../apicalls/exams';
+// import { HideLoading, ShowLoading } from '../../../redux/loaderSlice';
+// import { message } from 'antd';
+// import Instructions from './Instructions';
+// import axios from 'axios';
+
+// function WriteExam() {
+//   const [examData, setExamData] = useState();
+//   const [questions, setQuestions] = useState([]);
+//   const [selectedQuestionIndex, setSelectedQuestionIndex] = useState(0);
+//   const [selectedOptions, setSelectedOptions] = useState({});
+//   const { id } = useParams();
+//   const dispatch = useDispatch();
+//   const [view, setView] = useState('instructions');
+//   const { user } = useSelector(state => state.users);
+//   const navigate = useNavigate();
+//   const [result, setResult] = useState({ technical: 0, human: 0, conceptual: 0 });
+
+//   const optionLabels = [
+//     'Not True',
+//     'Seldom True',
+//     'Occasionally True',
+//     'Somewhat True',
+//     'Very True',
+//   ];
+
+//   const getExamDataById = async (id) => {
+//     try {
+//       dispatch(ShowLoading());
+//       const response = await getExamById(id);
+//       dispatch(HideLoading());
+
+//       if (response) {
+//         setExamData(response);
+//         setQuestions(response.questions);
+//       } else {
+//         message.error('Failed to load exam data.');
+//       }
+//     } catch (error) {
+//       dispatch(HideLoading());
+//       message.error('An error occurred while fetching exam data.');
+//     }
+//   };
+
+//   useEffect(() => {
+//     if (id) {
+//       getExamDataById(id);
+//     }
+//   }, [id]);
+
+//   // const calculateResult = () => {
+//   //   const categoryScores = {
+//   //     technical: 0,
+//   //     human: 0,
+//   //     conceptual: 0,
+//   //   };
+
+//   //   questions.forEach((question, index) => {
+//   //     const selectedOption = selectedOptions[index];
+//   //     if (selectedOption) {
+//   //       switch (question.category) {
+//   //         case 'Technical Skills':
+//   //           categoryScores.technical += selectedOption.marks;
+//   //           break;
+//   //         case 'Human Skills':
+//   //           categoryScores.human += selectedOption.marks;
+//   //           break;
+//   //         case 'Conceptual Skills':
+//   //           categoryScores.conceptual += selectedOption.marks;
+//   //           break;
+//   //         default:
+//   //           break;
+//   //       }
+//   //     }
+//   //   });
+
+//   //   setResult(categoryScores);
+//   //   setView("result");
+//   // };
+
+//   // const submitQuiz = async () => {
+//   //   const answers = Object.keys(selectedOptions).map((questionIndex) => ({
+//   //     questionId: questions[questionIndex]._id,
+//   //     selectedOption: selectedOptions[questionIndex].label,
+//   //   }));
+
+//   //   try {
+//   //     dispatch(ShowLoading());
+//   //     const response = await axios.post(`/quiz/${id}/submit`, {
+//   //       userId: user._id,
+//   //       answers,
+//   //     });
+
+//   //     if (response.data) {
+//   //       calculateResult();
+//   //     }
+
+//   //     dispatch(HideLoading());
+//   //   } catch (error) {
+//   //     dispatch(HideLoading());
+//   //     message.error('Failed to submit quiz');
+//   //   }
+//   // };
+//   const calculateResult = () => {
+//     const categoryScores = {
+//       technical: 0,
+//       human: 0,
+//       conceptual: 0,
+//     };
+  
+//     questions.forEach((question, index) => {
+//       const selectedOption = selectedOptions[index];
+//       if (selectedOption !== undefined) {
+//         switch (question.category) {
+//           case 'Technical Skills':
+//             categoryScores.technical += question.options[selectedOption].marks;
+//             break;
+//           case 'Human Skills':
+//             categoryScores.human += question.options[selectedOption].marks;
+//             break;
+//           case 'Conceptual Skills':
+//             categoryScores.conceptual += question.options[selectedOption].marks;
+//             break;
+//           default:
+//             break;
+//         }
+//       }
+//     });
+  
+//     setResult(categoryScores);
+//     setView("result");
+//   };
+  
+//   const submitQuiz = async () => {
+//     const answers = Object.keys(selectedOptions).map((questionIndex) => ({
+//       questionId: questions[questionIndex]._id, // Use the correct question ID
+//       selectedOption: selectedOptions[questionIndex] // This should be the index of the selected option
+//     }));
+  
+//     try {
+//       dispatch(ShowLoading());
+
+
+//       console.log("to to");
+//       console.log(answers);
+
+//       console.log("mi min min");
+//       console.log(user._id);
+      
+//       const response = await axios.post(`http://localhost:3000/quiz/${id}/submit`, {
+//         userId: user._id, // Make sure userId is included in the request
+//         answers,
+//       });
+  
+//       if (response.data) {
+//         calculateResult(); // Calculate result only after a successful submission
+//       }
+  
+//       dispatch(HideLoading());
+//     } catch (error) {
+//       dispatch(HideLoading());
+//       message.error('Failed to submit quiz');
+//     }
+//   };
+  
+
+//   return (
+//     examData && (
+//       <div className='mt-2'>
+//         <div className='divider'></div>
+//         <h1 className='text-center'>{examData.name}</h1>
+//         <div className='divider'></div>
+
+//         {view === 'instructions' && (
+//           <Instructions
+//             examData={examData}
+//             setExamData={setExamData}
+//             view={view}
+//             setView={setView}
+//           />
+//         )}
+
+//         {view === 'questions' && questions.length > 0 && (
+//           <div className='flex flex-col gap-2 mt-2'>
+//             <div className='flex justify-between'>
+//               <h1 className='text-2xl'>
+//                 {selectedQuestionIndex + 1} : {questions[selectedQuestionIndex].questionText}
+//               </h1>
+//             </div>
+
+//             <div className='flex flex-col gap-2'>
+//               {questions[selectedQuestionIndex].options.map((option, index) => (
+//                 <div
+//                   key={index}
+//                   className={`flex gap-2 items-center ${selectedOptions[selectedQuestionIndex]?.label === option.label ? 'selected-option' : 'option'}`}
+//                   onClick={() => {
+//                     setSelectedOptions({
+//                       ...selectedOptions,
+//                       [selectedQuestionIndex]: {
+//                         label: option.label,
+//                         marks: option.marks,
+//                       },
+//                     });
+//                   }}
+//                 >
+//                   <h1 className='text-xl'>
+//                     {optionLabels[index]} ({option.marks} Marks)
+//                   </h1>
+//                 </div>
+//               ))}
+//             </div>
+
+//             <div className='flex justify-between'>
+//               {selectedQuestionIndex > 0 && (
+//                 <button
+//                   className='primary-outlined-btn'
+//                   onClick={() => setSelectedQuestionIndex(selectedQuestionIndex - 1)}
+//                 >
+//                   Previous
+//                 </button>
+//               )}
+//               {selectedQuestionIndex < questions.length - 1 && (
+//                 <button
+//                   className='primary-contained-btn'
+//                   onClick={() => setSelectedQuestionIndex(selectedQuestionIndex + 1)}
+//                 >
+//                   Next
+//                 </button>
+//               )}
+//               {selectedQuestionIndex === questions.length - 1 && (
+//                 <button
+//                   className='primary-contained-btn'
+//                   onClick={submitQuiz}
+//                 >
+//                   Submit
+//                 </button>
+//               )}
+//             </div>
+//           </div>
+//         )}
+
+//         {view === "result" && (
+//           <div className='flex justify-center mt-2 gap-2'>
+//             <div className='flex flex-col gap-2 result'>
+//               <h1 className='text-2xl'>Result</h1>
+//               <div className='marks'>
+//                 <h1 className='text-md'>Technical Skills Marks: {result.technical}</h1>
+//                 <h1 className='text-md'>Human Skills Marks: {result.human}</h1>
+//                 <h1 className='text-md'>Conceptual Skills Marks: {result.conceptual}</h1>
+//               </div>
+
+//               <div className='flex gap-2 mt-2'>
+//                 <button
+//                   className='primary-outlined-btn'
+//                   onClick={() => {
+//                     setView('instructions');
+//                     setSelectedQuestionIndex(0);
+//                     setSelectedOptions({});
+//                   }}
+//                 >
+//                   Retake Exam
+//                 </button>
+//                 <button
+//                   className='primary-contained-btn'
+//                   onClick={() => navigate('/')}
+//                 >
+//                   Close
+//                 </button>
+//               </div>
+//             </div>
+//           </div>
+//         )}
+//       </div>
+//     )
+//   );
+// }
+
+// export default WriteExam;
+
+
+
+
+
+
+
+
+
+
+
+// import React, { useState, useEffect } from 'react';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { useNavigate, useParams } from 'react-router-dom';
+// import { getExamById } from '../../../apicalls/exams';
+// import { HideLoading, ShowLoading } from '../../../redux/loaderSlice';
+// import Instructions from './Instructions';
+// import { message } from 'antd';
+// import axios from 'axios';
+
+// function WriteExam() {
+//   const [examData, setExamData] = useState();
+//   const [questions, setQuestions] = useState([]);
+//   const [selectedQuestionIndex, setSelectedQuestionIndex] = useState(0);
+//   const [selectedOptions, setSelectedOptions] = useState({});
+//   const { id } = useParams();
+//   const dispatch = useDispatch();
+//   const [view, setView] = useState('instructions');
+//   const { user } = useSelector(state => state.users);
+//   const navigate = useNavigate();
+//   const [result, setResult] = useState({ technical: 0, human: 0, conceptual: 0 });
+
+//   const optionLabels = [
+//     'Not True',
+//     'Seldom True',
+//     'Occasionally True',
+//     'Somewhat True',
+//     'Very True',
+//   ];
+
+//   const getExamDataById = async (id) => {
+//     try {
+//       dispatch(ShowLoading());
+//       const response = await getExamById(id);
+//       dispatch(HideLoading());
+
+//       if (response) {
+//         setExamData(response);
+//         setQuestions(response.questions);
+//       } else {
+//         message.error('Failed to load exam data.');
+//       }
+//     } catch (error) {
+//       dispatch(HideLoading());
+//       message.error('An error occurred while fetching exam data.');
+//     }
+//   };
+
+//   useEffect(() => {
+//     if (id) {
+//       getExamDataById(id);
+//     }
+//   }, [id]);
+
+//   const calculateResult = () => {
+//     const categoryScores = {
+//       technical: 0,
+//       human: 0,
+//       conceptual: 0,
+//     };
+
+//     questions.forEach((question, index) => {
+//       const selectedOption = selectedOptions[index];
+//       if (selectedOption !== undefined) {
+//         switch (question.category) {
+//           case 'Technical Skills':
+//             categoryScores.technical += question.options[selectedOption].marks;
+//             break;
+//           case 'Human Skills':
+//             categoryScores.human += question.options[selectedOption].marks;
+//             break;
+//           case 'Conceptual Skills':
+//             categoryScores.conceptual += question.options[selectedOption].marks;
+//             break;
+//           default:
+//             break;
+//         }
+//       }
+//     });
+
+//     setResult(categoryScores);
+//     setView("result");
+//   };
+
+//   const submitQuiz = async () => {
+//     // Constructing answers in the correct format
+//     const answers = Object.keys(selectedOptions).map((questionIndex) => ({
+//       questionId: questions[questionIndex]._id, // Correct question ID
+//       selectedOption: selectedOptions[questionIndex], // Selected option index (not label)
+//     }));
+
+//     try {
+//       dispatch(ShowLoading());
+//       console.log(user._id);
+//       console.log(answers);
+//       const response = await axios.post(`http://localhost:3000/quiz/${id}/submit`, {
+//         userId: user._id, // Ensure this is sent correctly
+//         answers, // Send the formatted answers array
+//       });
+
+//       if (response.data) {
+//         calculateResult(); // Calculate results on successful submission
+//       }
+
+//       dispatch(HideLoading());
+//     } catch (error) {
+//       dispatch(HideLoading());
+//       message.error('Failed to submit quiz');
+//     }
+//   };
+
+//   return (
+//     examData && (
+//       <div className='mt-2'>
+//         <div className='divider'></div>
+//         <h1 className='text-center'>{examData.name}</h1>
+//         <div className='divider'></div>
+
+//         {view === 'instructions' && (
+//           <Instructions
+//             examData={examData}
+//             setExamData={setExamData}
+//             view={view}
+//             setView={setView}
+//           />
+//         )}
+
+//         {view === 'questions' && questions.length > 0 && (
+//           <div className='flex flex-col gap-2 mt-2'>
+//             <div className='flex justify-between'>
+//               <h1 className='text-2xl'>
+//                 {selectedQuestionIndex + 1} : {questions[selectedQuestionIndex].questionText}
+//               </h1>
+//             </div>
+
+//             <div className='flex flex-col gap-2'>
+//               {questions[selectedQuestionIndex].options.map((option, index) => (
+//                 <div
+//                   key={index}
+//                   className={`flex gap-2 items-center ${selectedOptions[selectedQuestionIndex]?.label === option.label ? 'selected-option' : 'option'}`}
+//                   onClick={() => {
+//                     setSelectedOptions({
+//                       ...selectedOptions,
+//                       [selectedQuestionIndex]: {
+//                         label: option.label,
+//                         marks: option.marks,
+//                       },
+//                     });
+//                   }}
+//                 >
+//                   <h1 className='text-xl'>
+//                     {optionLabels[index]} ({option.marks} Marks)
+//                   </h1>
+//                 </div>
+//               ))}
+//             </div>
+
+//             <div className='flex justify-between'>
+//               {selectedQuestionIndex > 0 && (
+//                 <button
+//                   className='primary-outlined-btn'
+//                   onClick={() => setSelectedQuestionIndex(selectedQuestionIndex - 1)}
+//                 >
+//                   Previous
+//                 </button>
+//               )}
+//               {selectedQuestionIndex < questions.length - 1 && (
+//                 <button
+//                   className='primary-contained-btn'
+//                   onClick={() => setSelectedQuestionIndex(selectedQuestionIndex + 1)}
+//                 >
+//                   Next
+//                 </button>
+//               )}
+//               {selectedQuestionIndex === questions.length - 1 && (
+//                 <button
+//                   className='primary-contained-btn'
+//                   onClick={submitQuiz}
+//                 >
+//                   Submit
+//                 </button>
+//               )}
+//             </div>
+//           </div>
+//         )}
+
+//         {view === "result" && (
+//           <div className='flex justify-center mt-2 gap-2'>
+//             <div className='flex flex-col gap-2 result'>
+//               <h1 className='text-2xl'>Result</h1>
+//               <div className='marks'>
+//                 <h1 className='text-md'>Technical Skills Marks: {result.technical}</h1>
+//                 <h1 className='text-md'>Human Skills Marks: {result.human}</h1>
+//                 <h1 className='text-md'>Conceptual Skills Marks: {result.conceptual}</h1>
+//               </div>
+
+//               <div className='flex gap-2 mt-2'>
+//                 <button
+//                   className='primary-outlined-btn'
+//                   onClick={() => {
+//                     setView('instructions');
+//                     setSelectedQuestionIndex(0);
+//                     setSelectedOptions({});
+//                   }}
+//                 >
+//                   Retake Exam
+//                 </button>
+//                 <button
+//                   className='primary-contained-btn'
+//                   onClick={() => navigate('/')}
+//                 >
+//                   Close
+//                 </button>
+//               </div>
+//             </div>
+//           </div>
+//         )}
+//       </div>
+//     )
+//     // Your component rendering logic here
+//   );
+// }
+
+// export default WriteExam;
+
+
+
+
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getExamById } from '../../../apicalls/exams';
 import { HideLoading, ShowLoading } from '../../../redux/loaderSlice';
-import { message } from 'antd';
 import Instructions from './Instructions';
+import { message } from 'antd';
+import axios from 'axios';
 
 function WriteExam() {
   const [examData, setExamData] = useState();
@@ -717,11 +1781,19 @@ function WriteExam() {
   const [selectedOptions, setSelectedOptions] = useState({});
   const { id } = useParams();
   const dispatch = useDispatch();
-  const [view, setView] = useState("instructions");
+  const [view, setView] = useState('instructions');
   const { user } = useSelector(state => state.users);
   const navigate = useNavigate();
+  const [result, setResult] = useState({ technical: 0, human: 0, conceptual: 0 });
 
-  // Fetch exam data by ID
+  const optionLabels = [
+    'Not True',
+    'Seldom True',
+    'Occasionally True',
+    'Somewhat True',
+    'Very True',
+  ];
+
   const getExamDataById = async (id) => {
     try {
       dispatch(ShowLoading());
@@ -732,11 +1804,11 @@ function WriteExam() {
         setExamData(response);
         setQuestions(response.questions);
       } else {
-        message.error("Failed to load exam data.");
+        message.error('Failed to load exam data.');
       }
     } catch (error) {
       dispatch(HideLoading());
-      message.error("An error occurred while fetching exam data.");
+      message.error('An error occurred while fetching exam data.');
     }
   };
 
@@ -746,13 +1818,165 @@ function WriteExam() {
     }
   }, [id]);
 
-  const optionLabels = [
-    "Not True",
-    "Seldom True",
-    "Occasionally True",
-    "Somewhat True",
-    "Very True"
-  ];
+  const calculateResult = () => {
+    const categoryScores = {
+      technical: 0,
+      human: 0,
+      conceptual: 0,
+    };
+
+    questions.forEach((question, index) => {
+      const selectedOption = selectedOptions[index];
+      if (selectedOption !== undefined) {
+        switch (question.category) {
+          case 'Technical Skills':
+            categoryScores.technical += question.options[selectedOption].marks;
+            break;
+          case 'Human Skills':
+            categoryScores.human += question.options[selectedOption].marks;
+            break;
+          case 'Conceptual Skills':
+            categoryScores.conceptual += question.options[selectedOption].marks;
+            break;
+          default:
+            break;
+        }
+      }
+    });
+
+    setResult(categoryScores);
+    setView("result");
+  };
+
+  // const submitQuiz = async () => {
+  //   // Constructing answers in the correct format
+  //   const answers = Object.keys(selectedOptions).map((questionIndex) => ({
+  //     questionId: questions[questionIndex]._id, // Correct question ID
+  //     selectedOption: selectedOptions[questionIndex], // Selected option index (not label)
+  //   }));
+
+  //   try {
+  //     dispatch(ShowLoading());
+  //     // const response = await axios.post(`http://localhost:3000/quiz/${id}/submit`, {
+  //     const response = await axios.post(`/quiz/${id}/submit`, {
+  //       userId: user._id, // Ensure this is sent correctly
+  //       answers, // Send the formatted answers array
+  //     });
+
+  //     // if (response.data) {
+  //     if (response) {
+  //       calculateResult(); // Calculate results on successful submission
+        
+        
+  //       // Send email with results
+  //       console.log(user.email);
+  //       console.log(examData.title);
+  //       console.log(result.technical);
+  //     await axios.post(`http://localhost:3000/sendResults`, {
+  //       email: user.email, // User's email
+  //       quizTitle: examData.name, // Quiz title
+  //       results: result // Results to be sent
+  //     });
+  //     }
+
+  //     dispatch(HideLoading());
+  //   } catch (error) {
+  //     dispatch(HideLoading());
+  //     message.error('Failed to submit quiz');
+  //   }
+  // };
+  // const submitQuiz = async () => {
+  //   // Constructing answers in the correct format
+  //   const answers = Object.keys(selectedOptions).map((questionIndex) => ({
+  //     questionId: questions[questionIndex]._id, // Correct question ID
+  //     selectedOption: selectedOptions[questionIndex], // Selected option index (not label)
+  //   }));
+  
+  //   try {
+  //     dispatch(ShowLoading());
+      
+  //     // Submitting quiz answers
+  //     const response = await axios.post(`/quiz/${id}/submit`, {
+  //       userId: user._id, // Ensure this is sent correctly
+  //       answers, // Send the formatted answers array
+  //     });
+  
+  //     if (response) {
+  //       calculateResult(); // Calculate results on successful submission
+  
+  //       // Debugging: Check result values
+  //       console.log('Email:', user.email);
+  //       console.log('Quiz Title:', examData.title);
+  //       console.log('Results:', result);
+  
+  //       // Sending email with results
+  //       const emailResponse = await axios.post(`http://localhost:3000/sendResults`, {
+  //         email: user.email, // User's email
+  //         quizTitle: examData.title, // Quiz title
+  //         results: result // Results to be sent
+  //       });
+  
+  //       console.log('Email Response:', emailResponse.data); // Debugging response
+  
+  //       dispatch(HideLoading());
+  //     }
+  //   } catch (error) {
+  //     console.error('Error submitting quiz or sending email:', error); // Improved error logging
+  //     dispatch(HideLoading());
+  //     message.error('Failed to submit quiz');
+  //   }
+  // };
+  const submitQuiz = async () => {
+    // Constructing answers in the correct format
+    const answers = Object.keys(selectedOptions).map((questionIndex) => ({
+      questionId: questions[questionIndex]._id, // Correct question ID
+      selectedOption: selectedOptions[questionIndex], // Selected option index (not label)
+    }));
+  
+    try {
+      dispatch(ShowLoading());
+  
+      // Submitting quiz answers
+      const response = await axios.post(`/quiz/${id}/submit`, {
+        userId: user._id, // Ensure this is sent correctly
+        answers, // Send the formatted answers array
+      });
+  
+      if (response) {
+        // Calculate results after successful submission
+        calculateResult(); 
+  
+        // Hide loading, as email will be sent after result calculation
+        dispatch(HideLoading());
+      }
+    } catch (error) {
+      console.error('Error submitting quiz:', error);
+      dispatch(HideLoading());
+      message.error('Failed to submit quiz');
+    }
+  };
+
+  useEffect(() => {
+    if (view === 'result') {
+      const sendEmailWithResults = async () => {
+        try {
+          const emailResponse = await axios.post(`http://localhost:3000/sendResults`, {
+            email: user.email, // User's email
+            quizTitle: examData.title, // Quiz title
+            results: result, // Correct result object to send
+          });
+  
+          console.log('Email sent successfully:', emailResponse.data); // Debugging response
+        } catch (error) {
+          console.error('Error sending email:', error); // Improved error logging
+        }
+      };
+  
+      // Send email with results after view switches to "result"
+      sendEmailWithResults();
+    }
+  }, [view, result, examData, user.email]);
+  
 
   return (
     examData && (
@@ -761,7 +1985,7 @@ function WriteExam() {
         <h1 className='text-center'>{examData.name}</h1>
         <div className='divider'></div>
 
-        {view === "instructions" && (
+        {view === 'instructions' && (
           <Instructions
             examData={examData}
             setExamData={setExamData}
@@ -770,44 +1994,39 @@ function WriteExam() {
           />
         )}
 
-        {view === "questions" && questions.length > 0 && (
+        {view === 'questions' && questions.length > 0 && (
           <div className='flex flex-col gap-2 mt-2'>
             <div className='flex justify-between'>
               <h1 className='text-2xl'>
-                {selectedQuestionIndex + 1} : {questions[selectedQuestionIndex].name}
+                {selectedQuestionIndex + 1} : {questions[selectedQuestionIndex].questionText}
               </h1>
             </div>
 
             <div className='flex flex-col gap-2'>
-              {optionLabels.map((label, index) => {
-                return (
-                  <div
-                    className={`flex gap-2 items-center ${
-                      selectedOptions[selectedQuestionIndex] === label ? 'selected-option' : 'option'
-                    }`}
-                    key={index}
-                    onClick={() => {
-                      setSelectedOptions({
-                        ...selectedOptions,
-                        [selectedQuestionIndex]: label,
-                      });
-                    }}
-                  >
-                    <h1 className='text-xl'>
-                      {label}
-                    </h1>
-                  </div>
-                );
-              })}
+              {questions[selectedQuestionIndex].options.map((option, index) => (
+                <div
+                  key={index}
+                  className={`flex gap-2 items-center ${selectedOptions[selectedQuestionIndex] === index ? 'selected-option' : 'option'}`}
+                  onClick={() => {
+                    setSelectedOptions({
+                      ...selectedOptions,
+                      [selectedQuestionIndex]: index, // Store the index directly
+                    });
+                  }}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <h1 className='text-xl'>
+                    {optionLabels[index]} 
+                  </h1>
+                </div>
+              ))}
             </div>
 
             <div className='flex justify-between'>
               {selectedQuestionIndex > 0 && (
                 <button
                   className='primary-outlined-btn'
-                  onClick={() => {
-                    setSelectedQuestionIndex(selectedQuestionIndex - 1);
-                  }}
+                  onClick={() => setSelectedQuestionIndex(selectedQuestionIndex - 1)}
                 >
                   Previous
                 </button>
@@ -815,9 +2034,7 @@ function WriteExam() {
               {selectedQuestionIndex < questions.length - 1 && (
                 <button
                   className='primary-contained-btn'
-                  onClick={() => {
-                    setSelectedQuestionIndex(selectedQuestionIndex + 1);
-                  }}
+                  onClick={() => setSelectedQuestionIndex(selectedQuestionIndex + 1)}
                 >
                   Next
                 </button>
@@ -825,14 +2042,47 @@ function WriteExam() {
               {selectedQuestionIndex === questions.length - 1 && (
                 <button
                   className='primary-contained-btn'
-                  onClick={() => {
-                    // Submit logic here, backend will handle the marks based on the selected options
-                    message.success("Quiz completed! (Submit logic will handle results)");
-                  }}
+                  onClick={submitQuiz}
                 >
                   Submit
                 </button>
               )}
+            </div>
+          </div>
+        )}
+
+        {view === "result" && (
+          <div className='flex justify-center mt-2 gap-2'>
+            <div className='flex flex-col gap-2 result'>
+              <h1 className='text-2xl'>Result</h1>
+              <div className='marks'>
+                <h1 className='text-md'>Technical Skills Marks: {result.technical}</h1>
+                <h1 className='text-md'>Human Skills Marks: {result.human}</h1>
+                <h1 className='text-md'>Conceptual Skills Marks: {result.conceptual}</h1>
+              </div>
+
+              <div className='flex gap-2 mt-2'>
+                <button
+                  className='primary-outlined-btn'
+                  onClick={() => {
+                    setView('instructions');
+                    setSelectedQuestionIndex(0);
+                    setSelectedOptions({});
+                  }}
+                >
+                  Retake Exam
+                </button>
+                <button
+                  className='primary-contained-btn'
+                  onClick={() => navigate('/')}
+                >
+                  Close
+                </button>
+              </div>
+              <div className="lottie-animation mt-6">
+             <lottie-player src="https://assets5.lottiefiles.com/packages/lf20_uu0x8lqv.json" background="transparent" speed="1" loop autoplay></lottie-player>
+            </div>
+
             </div>
           </div>
         )}
@@ -842,3 +2092,616 @@ function WriteExam() {
 }
 
 export default WriteExam;
+
+
+
+
+
+// import React, { useState, useEffect } from 'react';
+// import { Bar } from 'react-chartjs-2'; // Importing Bar chart from react-chartjs-2
+// import { useDispatch, useSelector } from 'react-redux';
+// import { useNavigate, useParams } from 'react-router-dom';
+// import { getExamById } from '../../../apicalls/exams';
+// import { HideLoading, ShowLoading } from '../../../redux/loaderSlice';
+// import Instructions from './Instructions';
+// import { message } from 'antd';
+// import axios from 'axios';
+// import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend } from 'chart.js';
+
+// ChartJS.register(BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend);
+
+// function WriteExam() {
+//   const [examData, setExamData] = useState();
+//   const [questions, setQuestions] = useState([]);
+//   const [selectedQuestionIndex, setSelectedQuestionIndex] = useState(0);
+//   const [selectedOptions, setSelectedOptions] = useState({});
+//   const { id } = useParams();
+//   const dispatch = useDispatch();
+//   const [view, setView] = useState('instructions');
+//   const { user } = useSelector((state) => state.users);
+//   const navigate = useNavigate();
+//   const [result, setResult] = useState({ technical: 0, human: 0, conceptual: 0 });
+
+//   const optionLabels = [
+//     'Not True',
+//     'Seldom True',
+//     'Occasionally True',
+//     'Somewhat True',
+//     'Very True',
+//   ];
+
+//   const getExamDataById = async (id) => {
+//     try {
+//       dispatch(ShowLoading());
+//       const response = await getExamById(id);
+//       dispatch(HideLoading());
+
+//       if (response) {
+//         setExamData(response);
+//         setQuestions(response.questions);
+//       } else {
+//         message.error('Failed to load exam data.');
+//       }
+//     } catch (error) {
+//       dispatch(HideLoading());
+//       message.error('An error occurred while fetching exam data.');
+//     }
+//   };
+
+//   useEffect(() => {
+//     if (id) {
+//       getExamDataById(id);
+//     }
+//   }, [id]);
+
+//   const calculateResult = () => {
+//     const categoryScores = {
+//       technical: 0,
+//       human: 0,
+//       conceptual: 0,
+//     };
+
+//     questions.forEach((question, index) => {
+//       const selectedOption = selectedOptions[index];
+//       if (selectedOption !== undefined) {
+//         switch (question.category) {
+//           case 'Technical Skills':
+//             categoryScores.technical += question.options[selectedOption].marks;
+//             break;
+//           case 'Human Skills':
+//             categoryScores.human += question.options[selectedOption].marks;
+//             break;
+//           case 'Conceptual Skills':
+//             categoryScores.conceptual += question.options[selectedOption].marks;
+//             break;
+//           default:
+//             break;
+//         }
+//       }
+//     });
+
+//     setResult(categoryScores);
+//     setView('result');
+//   };
+
+//   const submitQuiz = async () => {
+//     const answers = Object.keys(selectedOptions).map((questionIndex) => ({
+//       questionId: questions[questionIndex]._id,
+//       selectedOption: selectedOptions[questionIndex],
+//     }));
+
+//     try {
+//       dispatch(ShowLoading());
+
+//       const response = await axios.post(`/quiz/${id}/submit`, {
+//         userId: user._id,
+//         answers,
+//       });
+
+//       if (response) {
+//         calculateResult();
+//         dispatch(HideLoading());
+//       }
+//     } catch (error) {
+//       console.error('Error submitting quiz:', error);
+//       dispatch(HideLoading());
+//       message.error('Failed to submit quiz');
+//     }
+//   };
+
+//   useEffect(() => {
+//     if (view === 'result') {
+//       const sendEmailWithResults = async () => {
+//         try {
+//           await axios.post(`http://localhost:3000/sendResults`, {
+//             email: user.email,
+//             quizTitle: examData.title,
+//             results: result,
+//           });
+//         } catch (error) {
+//           console.error('Error sending email:', error);
+//         }
+//       };
+
+//       sendEmailWithResults();
+//     }
+//   }, [view, result, examData, user.email]);
+
+//   const barChartData = {
+//     labels: ['Technical Skills', 'Human Skills', 'Conceptual Skills'], // Labels for the x-axis
+//     datasets: [
+//       {
+//         label: 'Category Scores',
+//         data: [result.technical, result.human, result.conceptual], // Data from the result state
+//         backgroundColor: [
+//           'rgba(75, 192, 192, 0.2)',
+//           'rgba(54, 162, 235, 0.2)',
+//           'rgba(255, 205, 86, 0.2)',
+//         ],
+//         borderColor: [
+//           'rgba(75, 192, 192, 1)',
+//           'rgba(54, 162, 235, 1)',
+//           'rgba(255, 205, 86, 1)',
+//         ],
+//         borderWidth: 1,
+//       },
+//     ],
+//   };
+
+//   const barChartOptions = {
+//     scales: {
+//       y: {
+//         beginAtZero: true,
+//       },
+//     },
+//   };
+
+//   return (
+//     examData && (
+//       <div className='mt-2'>
+//         <div className='divider'></div>
+//         <h1 className='text-center'>{examData.name}</h1>
+//         <div className='divider'></div>
+
+//         {view === 'instructions' && (
+//           <Instructions examData={examData} setExamData={setExamData} view={view} setView={setView} />
+//         )}
+
+//         {view === 'questions' && questions.length > 0 && (
+//           <div className='flex flex-col gap-2 mt-2'>
+//             <div className='flex justify-between'>
+//               <h1 className='text-2xl'>
+//                 {selectedQuestionIndex + 1}: {questions[selectedQuestionIndex].questionText}
+//               </h1>
+//             </div>
+
+//             <div className='flex flex-col gap-2'>
+//               {questions[selectedQuestionIndex].options.map((option, index) => (
+//                 <div
+//                   key={index}
+//                   className={`flex gap-2 items-center ${
+//                     selectedOptions[selectedQuestionIndex] === index ? 'selected-option' : 'option'
+//                   }`}
+//                   onClick={() =>
+//                     setSelectedOptions({
+//                       ...selectedOptions,
+//                       [selectedQuestionIndex]: index,
+//                     })
+//                   }
+//                   style={{ cursor: 'pointer' }}
+//                 >
+//                   <h1 className='text-xl'>{optionLabels[index]}</h1>
+//                 </div>
+//               ))}
+//             </div>
+
+//             <div className='flex justify-between'>
+//               {selectedQuestionIndex > 0 && (
+//                 <button
+//                   className='primary-outlined-btn'
+//                   onClick={() => setSelectedQuestionIndex(selectedQuestionIndex - 1)}
+//                 >
+//                   Previous
+//                 </button>
+//               )}
+//               {selectedQuestionIndex < questions.length - 1 && (
+//                 <button
+//                   className='primary-contained-btn'
+//                   onClick={() => setSelectedQuestionIndex(selectedQuestionIndex + 1)}
+//                 >
+//                   Next
+//                 </button>
+//               )}
+//               {selectedQuestionIndex === questions.length - 1 && (
+//                 <button className='primary-contained-btn' onClick={submitQuiz}>
+//                   Submit
+//                 </button>
+//               )}
+//             </div>
+//           </div>
+//         )}
+
+//         {view === 'result' && (
+//           <div className='flex justify-center mt-2 gap-2'>
+//             <div className='flex flex-col gap-2 result'>
+//               <h1 className='text-2xl'>Result</h1>
+//               <Bar data={barChartData} options={barChartOptions} />
+//               <div className='flex gap-2 mt-2'>
+//                 <button
+//                   className='primary-outlined-btn'
+//                   onClick={() => {
+//                     setView('instructions');
+//                     setSelectedQuestionIndex(0);
+//                     setSelectedOptions({});
+//                   }}
+//                 >
+//                   Retake Exam
+//                 </button>
+//                 <button className='primary-contained-btn' onClick={() => navigate('/')}>
+//                   Close
+//                 </button>
+//               </div>
+//             </div>
+//           </div>
+//         )}
+//       </div>
+//     )
+//   );
+// }
+
+// export default WriteExam;
+
+
+
+
+// import React, { useState, useEffect } from 'react';
+// import { Bar } from '@ant-design/charts'; // Importing Bar chart from @ant-design/charts
+// import { useDispatch, useSelector } from 'react-redux';
+// import { useNavigate, useParams } from 'react-router-dom';
+// import { getExamById } from '../../../apicalls/exams';
+// import { HideLoading, ShowLoading } from '../../../redux/loaderSlice';
+// import Instructions from './Instructions';
+// import { message } from 'antd';
+// import axios from 'axios';
+
+// function WriteExam() {
+//   const [examData, setExamData] = useState();
+//   const [questions, setQuestions] = useState([]);
+//   const [selectedQuestionIndex, setSelectedQuestionIndex] = useState(0);
+//   const [selectedOptions, setSelectedOptions] = useState({});
+//   const { id } = useParams();
+//   const dispatch = useDispatch();
+//   const [view, setView] = useState('instructions');
+//   const { user } = useSelector((state) => state.users);
+//   const navigate = useNavigate();
+//   const [result, setResult] = useState({ technical: 0, human: 0, conceptual: 0 });
+
+//   const optionLabels = [
+//     'Not True',
+//     'Seldom True',
+//     'Occasionally True',
+//     'Somewhat True',
+//     'Very True',
+//   ];
+
+//   const getExamDataById = async (id) => {
+//     try {
+//       dispatch(ShowLoading());
+//       const response = await getExamById(id);
+//       dispatch(HideLoading());
+
+//       if (response) {
+//         setExamData(response);
+//         setQuestions(response.questions);
+//       } else {
+//         message.error('Failed to load exam data.');
+//       }
+//     } catch (error) {
+//       dispatch(HideLoading());
+//       message.error('An error occurred while fetching exam data.');
+//     }
+//   };
+
+//   useEffect(() => {
+//     if (id) {
+//       getExamDataById(id);
+//     }
+//   }, [id]);
+
+//   const calculateResult = () => {
+//     const categoryScores = {
+//       technical: 0,
+//       human: 0,
+//       conceptual: 0,
+//     };
+
+//     questions.forEach((question, index) => {
+//       const selectedOption = selectedOptions[index];
+//       if (selectedOption !== undefined) {
+//         switch (question.category) {
+//           case 'Technical Skills':
+//             categoryScores.technical += question.options[selectedOption].marks;
+//             break;
+//           case 'Human Skills':
+//             categoryScores.human += question.options[selectedOption].marks;
+//             break;
+//           case 'Conceptual Skills':
+//             categoryScores.conceptual += question.options[selectedOption].marks;
+//             break;
+//           default:
+//             break;
+//         }
+//       }
+//     });
+
+//     setResult(categoryScores);
+//     setView('result');
+//   };
+
+//   const submitQuiz = async () => {
+//     const answers = Object.keys(selectedOptions).map((questionIndex) => ({
+//       questionId: questions[questionIndex]._id,
+//       selectedOption: selectedOptions[questionIndex],
+//     }));
+
+//     try {
+//       dispatch(ShowLoading());
+
+//       const response = await axios.post(`/quiz/${id}/submit`, {
+//         userId: user._id,
+//         answers,
+//       });
+
+//       if (response) {
+//         calculateResult();
+//         dispatch(HideLoading());
+//       }
+//     } catch (error) {
+//       console.error('Error submitting quiz:', error);
+//       dispatch(HideLoading());
+//       message.error('Failed to submit quiz');
+//     }
+//   };
+
+//   const barChartData = [
+//     {
+//       category: 'Technical Skills',
+//       score: result.technical,
+//     },
+//     {
+//       category: 'Human Skills',
+//       score: result.human,
+//     },
+//     {
+//       category: 'Conceptual Skills',
+//       score: result.conceptual,
+//     },
+//   ];
+
+//   const barChartConfig = {
+//     data: barChartData,
+//     xField: 'category',
+//     yField: 'score',
+//     seriesField: 'category',
+//     meta: {
+//       score: {
+//         alias: 'Score',
+//       },
+//       category: {
+//         alias: 'Category',
+//       },
+//     },
+//     color: ['rgba(75, 192, 192, 0.8)', 'rgba(54, 162, 235, 0.8)', 'rgba(255, 205, 86, 0.8)'],
+//     label: {
+//       position: 'right',
+//       style: {
+//         fill: '#aaa',
+//         opacity: 0.6,
+//       },
+//     },
+//     background: {
+//       fill: '#FFFFFF', // White background
+//     },
+//   };
+//   const barChartOptions = {
+//     indexAxis: 'y', // For horizontal bar chart
+//     scales: {
+//       x: {
+//         beginAtZero: true,
+//       },
+//     },
+//     plugins: {
+//       legend: {
+//         display: true,
+//         position: 'top',
+//       },
+//     },
+//   };
+  
+  
+  
+
+//   return (
+//     examData && (
+//       <div className='mt-2'>
+//         <div className='divider'></div>
+//         <h1 className='text-center'>{examData.name}</h1>
+//         <div className='divider'></div>
+
+//         {view === 'instructions' && (
+//           <Instructions examData={examData} setExamData={setExamData} view={view} setView={setView} />
+//         )}
+
+//         {view === 'questions' && questions.length > 0 && (
+//           <div className='flex flex-col gap-2 mt-2'>
+//             <div className='flex justify-between'>
+//               <h1 className='text-2xl'>
+//                 {selectedQuestionIndex + 1}: {questions[selectedQuestionIndex].questionText}
+//               </h1>
+//             </div>
+
+//             <div className='flex flex-col gap-2'>
+//               {questions[selectedQuestionIndex].options.map((option, index) => (
+//                 <div
+//                   key={index}
+//                   className={`flex gap-2 items-center ${
+//                     selectedOptions[selectedQuestionIndex] === index ? 'selected-option' : 'option'
+//                   }`}
+//                   onClick={() =>
+//                     setSelectedOptions({
+//                       ...selectedOptions,
+//                       [selectedQuestionIndex]: index,
+//                     })
+//                   }
+//                   style={{ cursor: 'pointer' }}
+//                 >
+//                   <h1 className='text-xl'>{optionLabels[index]}</h1>
+//                 </div>
+//               ))}
+//             </div>
+
+//             <div className='flex justify-between'>
+//               {selectedQuestionIndex > 0 && (
+//                 <button
+//                   className='primary-outlined-btn'
+//                   onClick={() => setSelectedQuestionIndex(selectedQuestionIndex - 1)}
+//                 >
+//                   Previous
+//                 </button>
+//               )}
+//               {selectedQuestionIndex < questions.length - 1 && (
+//                 <button
+//                   className='primary-contained-btn'
+//                   onClick={() => setSelectedQuestionIndex(selectedQuestionIndex + 1)}
+//                 >
+//                   Next
+//                 </button>
+//               )}
+//               {selectedQuestionIndex === questions.length - 1 && (
+//                 <button className='primary-contained-btn' onClick={submitQuiz}>
+//                   Submit
+//                 </button>
+//               )}
+//             </div>
+//           </div>
+//         )}
+
+        
+//           {view === 'result' && (
+//   <div className='flex justify-center mt-2 gap-2'>
+//     <div className='flex flex-col gap-2 result' style={{ backgroundColor: '#FFFFFF', padding: '20px', borderRadius: '8px' }}>
+//       <h1 className='text-2xl'>Result</h1>
+//       <Bar data={barChartData} options={barChartOptions} />
+//       <div className='flex gap-2 mt-2'>
+//         <button
+//           className='primary-outlined-btn'
+//           onClick={() => {
+//             setView('instructions');
+//             setSelectedQuestionIndex(0);
+//             setSelectedOptions({});
+//           }}
+//         >
+//           Retake Exam
+//         </button>
+//         <button className='primary-contained-btn' onClick={() => navigate('/')}>
+//           Close
+//         </button>
+//       </div>
+//     </div>
+//   </div>
+// )}
+
+        
+//       </div>
+//     )
+//   );
+// }
+
+// export default WriteExam;
+
+
+
+
+
+
+
+
+
+
+// {view === 'result' && (
+//   <div className='flex justify-center mt-2 gap-2'>
+//     <div className='flex flex-col gap-2 result'>
+//       <h1 className='text-2xl'>Result</h1>
+//       <Bar {...barChartConfig} /> 
+//       <div className='flex gap-2 mt-2'>
+//         <button
+//           className='primary-outlined-btn'
+//           onClick={() => {
+//             setView('instructions');
+//             setSelectedQuestionIndex(0);
+//             setSelectedOptions({});
+//           }}
+//         >
+//           Retake Exam
+//         </button>
+//         <button className='primary-contained-btn' onClick={() => navigate('/')}>
+//           Close
+//         </button>
+//       </div>
+//     </div>
+//   </div>
+
+
+
+
+
+
+// {
+//   "name": "frontend",
+//   "version": "0.1.0",
+//   "private": true,
+//   "dependencies": {
+//     "@reduxjs/toolkit": "^1.8.6",
+//     "@testing-library/jest-dom": "^5.16.5",
+//     "@testing-library/react": "^13.4.0",
+//     "@testing-library/user-event": "^13.5.0",
+//     "antd": "^4.23.5",
+//     "axios": "^1.1.2",
+//     "chart.js": "^4.4.4",
+//     "http-proxy-middleware": "^3.0.2",
+//     "moment": "^2.29.4",
+//     "react": "^18.2.0",
+//     "react-chartjs-2": "^5.2.0",
+//     "react-dom": "^18.2.0",
+//     "react-redux": "^8.0.4",
+//     "react-router-dom": "^6.4.2",
+//     "react-scripts": "4.0.3",
+//     "redux": "^4.2.0",
+//     "web-vitals": "^2.1.4"
+//   },
+//   "proxy": "http://localhost:3000",
+//   "scripts": {
+//     "start": "react-scripts start",
+//     "build": "react-scripts build",
+//     "test": "react-scripts test",
+//     "eject": "react-scripts eject"
+//   },
+//   "eslintConfig": {
+//     "extends": [
+//       "react-app",
+//       "react-app/jest"
+//     ]
+//   },
+//   "browserslist": {
+//     "production": [
+//       ">0.2%",
+//       "not dead",
+//       "not op_mini all"
+//     ],
+//     "development": [
+//       "last 1 chrome version",
+//       "last 1 firefox version",
+//       "last 1 safari version"
+//     ]
+//   }
+// }
