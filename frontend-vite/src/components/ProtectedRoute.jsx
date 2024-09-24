@@ -339,9 +339,9 @@ function ProtectedRoute({ children }) {
             <h1 className='text-2xl text-white'>Quiz Portal</h1>
             <div className='flex items-center gap-1'>
               <i className="ri-user-line"></i>
-              {user?.name}
+              <span> {user?.name}</span>
+              <span>Role : {(user?.isAdmin) ? "Admin" : "User"}</span>
             </div>
-            <span>Role : {(user?.isAdmin) ? "Admin" : "User"}</span>
           </div>
           <div className='content'>
             {children}
