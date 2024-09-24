@@ -1973,7 +1973,7 @@ function WriteExam() {
       };
   
       // Send email with results after view switches to "result"
-      sendEmailWithResults();
+      // sendEmailWithResults();
     }
   }, [view, result, examData, user.email]);
   
@@ -2055,11 +2055,11 @@ function WriteExam() {
           <div className='flex justify-center mt-2 gap-2'>
             <div className='flex flex-col gap-2 result'>
               <h1 className='text-2xl'>Result</h1>
-              <div className='marks'>
+              {/* <div className='marks'>
                 <h1 className='text-md'>Technical Skills Marks: {result.technical}</h1>
                 <h1 className='text-md'>Human Skills Marks: {result.human}</h1>
                 <h1 className='text-md'>Conceptual Skills Marks: {result.conceptual}</h1>
-              </div>
+              </div> */}
               <div>
                 <ReportBarGraph result={result}/>
               </div>
@@ -2084,9 +2084,8 @@ function WriteExam() {
               <div className="lottie-animation mt-6">
              <lottie-player src="https://assets5.lottiefiles.com/packages/lf20_uu0x8lqv.json" background="transparent" speed="1" loop autoplay></lottie-player>
             </div>
-
-            </div>
-          </div>
+         </div>
+        </div>
         )}
       </div>
     )
