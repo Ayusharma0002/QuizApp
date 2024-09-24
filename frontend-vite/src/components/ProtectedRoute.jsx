@@ -341,6 +341,7 @@ function ProtectedRoute({ children }) {
               <i className="ri-user-line"></i>
               {user?.name}
             </div>
+            <span>Role : {(user?.isAdmin) ? "Admin" : "User"}</span>
           </div>
           <div className='content'>
             {children}
