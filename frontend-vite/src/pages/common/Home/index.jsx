@@ -187,7 +187,7 @@ function HomePage() {
         // }));
         // setExams(formattedExams); // Set the formatted exams in the state
       } else {
-        
+
         console.log("Home page ki error hoon mai ");
         message.error(response.message);
       }
@@ -201,7 +201,6 @@ function HomePage() {
   useEffect(() => {
     getExams();
   }, []);
-
   return (
     user && (
       <div>
@@ -210,7 +209,7 @@ function HomePage() {
         <Row gutter={[16, 16]} className='mt-2'>
           {exams && exams.length > 0 ? (
             exams.map((exam) => (
-              <Col span={6} key={exam._id}>
+              <Col xs={24} sm={12} md={8} lg={6} key={exam._id}>
                 <div className='card-lg flex flex-col gap-1 p-2'>
                   {/* Display the quiz title */}
                   <h1 className='text-2xl'>Quiz Title: {exam.title}</h1>

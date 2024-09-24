@@ -1,71 +1,79 @@
 import React from 'react';
-import { Bar } from '@ant-design/charts';
+import { Bar } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+
+// Register Chart.js components
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const ReportBarGraph = ({ result }) => {
   // Data for the bar graph
-  const data = [
-    {
-      skill: 'Technical Skills',
-      marks: result.technical,
-    },
-    {
-      skill: 'Human Skills',
-      marks: result.human,
-    },
-    {
-      skill: 'Conceptual Skills',
-      marks: result.conceptual,
-    },
-  ];
-  const config = {
-    data,
-    xField: 'marks', 
-    yField: 'skill', 
-    seriesField: 'skill', 
-    color: ['#1890ff', '#73d13d', '#ffa940'], 
-    barWidthRatio: 0.4, 
-    label: {
-      position: 'middle',
-      style: {
-        fill: '#fff',
-        opacity: 0.6,
+  const data = {
+    labels: ['Technical Skills', 'Human Skills', 'Conceptual Skills'],
+    datasets: [
+      {
+        label: 'Marks',
+        data: [result.technical, result.human, result.conceptual],
+        backgroundColor: ['#1890ff', '#73d13d', '#ffa940'],
+        borderColor: ['#1890ff', '#73d13d', '#ffa940'],
+        borderWidth: 1,
       },
-    },
-    xAxis: {
-      label: {
-        autoHide: true,
-        autoRotate: false,
+    ],
+  };
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false, // Allow height adjustment
+    plugins: {
+      legend: {
+        position: 'top',
       },
       title: {
-        text: 'Marks',
-        style: {
-          fontSize: 12,
-          fontWeight: 500,
-        },
+        display: true,
+        text: 'Skills Marks Bar Graph',
       },
     },
-    yAxis: {
-      title: {
-        text: 'Skills',
-        style: {
-          fontSize: 12,
-          fontWeight: 500,
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: 'Skills',
+          font: {
+            size: 12,
+            weight: '500',
+          },
         },
       },
-    },
-    tooltip: {
-      showMarkers: false,
-    },
-    interactions: [{ type: 'active-region', enable: false }],
-    legend: {
-      position: 'top-left',
+      y: {
+        beginAtZero: true,
+        min: 0,
+        max: 20, // Set the maximum value to 20
+        ticks: {
+          stepSize: 2, // Define a smaller step size for better readability
+        },
+        title: {
+          display: true,
+          text: 'Marks',
+          font: {
+            size: 12,
+            weight: '500',
+          },
+        },
+      },
     },
   };
 
   return (
-    <div>
+    <div style={{ height: '400px' }}> {/* Adjust the container height as needed */}
       <h2 className="text-md">Skills Marks Bar Graph</h2>
-      <Bar {...config} />
+      <Bar data={data} options={options} />
     </div>
   );
 };

@@ -206,6 +206,7 @@ import { Table, message } from 'antd';
 import { useDispatch } from 'react-redux';
 import { HideLoading, ShowLoading } from '../../../redux/loaderSlice';
 import { getAllExams, deleteExam } from '../../../apicalls/exams'
+import { DeleteOutlined } from '@ant-design/icons';
 
 function ExamsPage() {
   const navigate = useNavigate();
@@ -233,10 +234,12 @@ function ExamsPage() {
               className='ri-pencil-line cursor-pointer'
               onClick={() => navigate(`/admin/exams/edit/${record._id}`)}
             ></i> */}
-            <i
+            <DeleteOutlined
+              onClick={() => deleteExamById(record._id)} />
+            {/* <i
               className='ri-delete-bin-line cursor-pointer'
               onClick={() => deleteExamById(record._id)}
-            ></i>
+            ></i> */}
           </div>
         );
       },
@@ -270,7 +273,7 @@ function ExamsPage() {
       dispatch(ShowLoading());
       const response = await getAllExams();
       dispatch(HideLoading());
-  
+
       if (response) {
         // Extract quiz data from the response and calculate total questions
         const formattedExams = response.map((quiz) => ({
@@ -287,21 +290,21 @@ function ExamsPage() {
       message.error(error.message);
     }
   };
-  
-    const deleteExamById = async(id) => {
-    try{
+
+  const deleteExamById = async (id) => {
+    try {
       dispatch(ShowLoading());
       const response = await deleteExam(id);
       dispatch(HideLoading())
-      if(response.success){
+      if (response.success) {
         message.success(response.message);
         getExamsData()
       }
-      else{
+      else {
         message.error(response.message)
       }
     }
-    catch(error){
+    catch (error) {
       dispatch(HideLoading())
       message.error(error.message)
     }

@@ -1,12 +1,10 @@
-.layout{
-  padding: 15px;
+/* .layout{
   height: 100vh;
 }
 
 .sidebar{
   background-color: var(--primary);
-  padding: 10px;
-  border-radius: 5px;
+  padding: 20px;
   color: white;
   height: 100%;
   display: flex;
@@ -17,7 +15,7 @@
 .menu-item{
     display: flex;
     align-items: center;
-    padding: 8px 30px;
+    padding: 8px 10px;
     margin: 5px;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
@@ -25,13 +23,13 @@
 }
 
 .active-menu-item{
-    padding: 10px 20px;
+    padding: 10px 10px;
     border: 2px solid white;
     border-radius: 5px;
 }
 
 .body{
-  width: 100% 
+  width: 100%;
 }
 
 .header{
@@ -39,14 +37,165 @@
   color: white !important;
   width: 100%; 
   padding: 10px;
-  border-radius: 5px;
 }
 
 .content{
-
+  padding: 10px;
 }
 
 
 .cursor-pointer{
     cursor: pointer;
+} */
+
+
+
+
+
+
+
+
+
+.layout {
+  height: 100vh;
+  display: flex;
+}
+
+.sidebar {
+  background-color: var(--primary);
+  padding: 20px;
+  color: white;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  /* Stack items vertically */
+  align-items: flex-start;
+  /* Align items to the start */
+  justify-content: flex-start;
+  /* Align items to the start */
+  flex-shrink: 0;
+  /* Prevent shrinking */
+  transition: all 0.3s ease;
+  /* Smooth transition */
+}
+
+.menu {
+  margin-top: 32px;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 10px;
+  margin: 20px 0;
+  /* Adjust margin for vertical stacking */
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  gap: 15px;
+}
+
+.active-menu-item {
+  padding: 10px 10px;
+  border: 2px solid white;
+  border-radius: 5px;
+}
+
+.body {
+  width: 100%;
+  overflow: auto;
+  /* Allow scrolling */
+}
+
+.header {
+  background-color: var(--primary);
+  color: white !important;
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  /* Ensure items are spaced out */
+  align-items: center;
+  /* Center items vertically */
+}
+
+.content {
+  padding: 10px;
+  overflow-y: auto;
+  /* Allow scrolling */
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .toggle-icon {
+    width: 20px;
+    display: flex;
+    /* Hide toggle icon on larger screens */
+  }
+
+  .layout {
+    flex-direction: column;
+    /* Stack layout vertically on smaller screens */
+  }
+
+  .sidebar {
+    width: 100%;
+    padding: 10px;
+    /* Adjust padding for smaller screens */
+    justify-content: flex-start;
+    /* Align items to start */
+    align-items: center;
+    display: none;
+    /* Initially hide sidebar on small screens */
+  }
+
+  .sidebar.active {
+    display: flex;
+    /* Show sidebar when active */
+  }
+
+  .body {
+    width: 100%;
+    /* Full width */
+    padding: 10px;
+    /* Padding for body */
+  }
+
+  .header {
+    display: flex;
+    flex-direction: row;
+    /* Row layout for header */
+    justify-content: space-between;
+    /* Space items evenly */
+    align-items: center;
+    padding: 10px;
+    /* Ensure there's padding */
+  }
+
+  .menu-item {
+    padding: 10px 15px;
+    /* Adjust padding for menu items */
+  }
+
+  .header .cursor-pointer {
+    display: flex;
+    /* Ensure the cursor pointer is always displayed */
+  }
+}
+
+@media (min-width: 769px) {
+  .toggle-icon {
+    width: 20px;
+    display: none;
+    /* Hide toggle icon on larger screens */
+  }
+}
+
+@media (min-width: 769px) {
+  .toggle-icon-2 {
+    width: 20px;
+  }
 }
