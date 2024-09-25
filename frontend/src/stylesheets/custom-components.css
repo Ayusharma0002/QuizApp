@@ -1,9 +1,11 @@
 .card{
-    box-shadow: 0 0 1px gray;
+    box-shadow: 0 0 2px gray;
+    border-radius: 8px;
 }
 
 .card-lg{
     box-shadow: 0 0 2px rgb(72,72,72);
+    border-radius: 8px;
 }
 
 .divider{

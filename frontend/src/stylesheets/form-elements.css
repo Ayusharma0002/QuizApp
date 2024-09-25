@@ -8,6 +8,8 @@ input, select{
 .primary-contained-btn{
     background-color: var(--primary);
     color: white;
+    border: none !important;
+    border-radius: 8px;
     padding: 10px 20px;
     cursor: pointer;
 }

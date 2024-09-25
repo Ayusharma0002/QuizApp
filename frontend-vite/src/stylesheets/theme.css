@@ -5,8 +5,11 @@
     --info: #00bcd4;
     --warning: #ff9800;
     --danger: #f44336;
-    --light: #f1f1f1;
+    --light: #FFFFFF;
+    --gray: #f1f0f0;
+    /* --gray: #f7f4fc; */
     --dark: #212121;
+    --black:#2B2C2E;
 }
 
 .bg-primary{
@@ -15,6 +18,9 @@
 
 .bg-white{
     background-color: var(--light) !important;
+}
+.bg-gray{
+    background-color: var(--gray) !important;
 }
 
 .text-white{

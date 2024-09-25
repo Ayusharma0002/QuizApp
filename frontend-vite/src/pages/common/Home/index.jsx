@@ -203,14 +203,14 @@ function HomePage() {
   }, []);
   return (
     user && (
-      <div>
+      <div className=''>
         <PageTitle title={`Hi ${user.name}, Welcome to Quiz Portal`} />
         <div className='divider'></div>
-        <Row gutter={[16, 16]} className='mt-2'>
+        <Row gutter={[16, 16]} className='mt-2 '>
           {exams && exams.length > 0 ? (
             exams.map((exam) => (
               <Col xs={24} sm={12} md={8} lg={6} key={exam._id}>
-                <div className='card-lg flex flex-col gap-1 p-2'>
+                <div className='card-lg bg-white flex flex-col gap-1 p-4'>
                   {/* Display the quiz title */}
                   <h1 className='text-2xl'>Quiz Title: {exam.title}</h1>
 

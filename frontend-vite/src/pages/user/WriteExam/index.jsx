@@ -1982,7 +1982,7 @@ function WriteExam() {
     examData && (
       <div className='mt-2'>
         <div className='divider'></div>
-        <h1 className='text-center'>{examData.name}</h1>
+        <h1 className='text-center'>{examData?.title}</h1>
         <div className='divider'></div>
 
         {view === 'instructions' && (

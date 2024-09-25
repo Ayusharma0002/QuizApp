@@ -8,16 +8,17 @@ input, select{
 .primary-contained-btn{
     background-color: var(--primary);
     color: white;
+    border: none !important;
+    border-radius: 8px;
     padding: 10px 20px;
     cursor: pointer;
+    border: 2px solid var(--primary) !important;
 }
 
 .primary-contained-btn:hover{
     background-color: white;
     color: var(--primary);
     border: 2px solid var(--primary) !important;
-    padding: 10px;
-    border-radius: 2px;
 }
 
 .primary-outlined-btn{
@@ -25,14 +26,28 @@ input, select{
     color: var(--primary);
     border: 2px solid var(--primary) !important;
     padding: 10px;
-    border-radius: 2px;
+    border-radius: 8px;
     cursor: pointer;
 }
 
 .primary-outlined-btn:hover{
     background-color: var(--primary);
     color: white;
-    padding: 10px 20px;
+    padding: 10px;
+}
+.secondary-outlined-btn{
+    background-color: white;
+    color: var(--secondary);
+    border: 2px solid var(--secondary) !important;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.secondary-outlined-btn:hover{
+    background-color: var(--secondary);
+    color: white;
+    padding: 10px;
 }
 
 .ant-form-item{

@@ -155,10 +155,10 @@ function Instructions(props) {
           </li>
         </ul>
         <div className='flex gap-2'>
-          <button className='primary-outlined-btn' onClick={() => navigate(-1)}>
+          <button className='secondary-outlined-btn' onClick={() => navigate(-1)}>
             Close
           </button>
-          <button className='primary-contained-btn' onClick={() => {
+          <button className='primary-outlined-btn' onClick={() => {
             setView("questions");
           }}>
             Start Exam

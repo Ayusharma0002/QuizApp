@@ -315,10 +315,10 @@ function ProtectedRoute({ children }) {
     user && (
       <div className='layout'>
         <div className={`sidebar ${collapsed ? '' : 'active'}`}>
-          <span className='cursor-pointer toggle-icon' onClick={() => setCollapsed(!collapsed)}>
-            <i className={`ri-${collapsed ? 'menu-2' : 'close'}-line text-2xl`}></i>
-          </span>
-          <div className='menu'>
+          <div className='cursor-pointer toggle-icon' onClick={() => setCollapsed(!collapsed)}>
+            <i className="ri-close-line text-3xl"></i>
+          </div>
+          <div className='menu text-black'>
             {menu.map((item, index) => (
               <div
                 className={`menu-item ${getIsActiveOrNot(item.paths) && "active-menu-item"}`}
@@ -330,14 +330,16 @@ function ProtectedRoute({ children }) {
               </div>
             ))}
           </div>
+
         </div>
+
         <div className='body'>
-          <div className='header'>
-            <span className='cursor-pointer' onClick={() => setCollapsed(!collapsed)}>
-              <i className={`ri-${collapsed ? 'menu-2' : 'close'}-line text-2xl`}></i>
+          <div className='header bg-white'>
+            <span className='cursor-pointer text-black' onClick={() => setCollapsed(!collapsed)}>
+              <i className={`ri-${collapsed ? 'menu-2' : 'arrow-left'}-line text-2xl`}></i>
             </span>
-            <h1 className='text-2xl text-white'>Quiz Portal</h1>
-            <div className='flex items-center gap-1'>
+            <h1 className='text-2xl text-black'>Quiz Portal</h1>
+            <div className='flex items-center gap-1 text-black'>
               <i className="ri-user-line"></i>
               <span> {user?.name}</span>
               <span>Role : {(user?.isAdmin) ? "Admin" : "User"}</span>
