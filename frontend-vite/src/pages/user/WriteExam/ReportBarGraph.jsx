@@ -36,7 +36,7 @@ const ReportBarGraph = ({ result }) => {
         position: 'top',
       },
       title: {
-        display: true,
+        display: false,
         text: 'Skills Marks Bar Graph',
       },
     },
@@ -71,8 +71,8 @@ const ReportBarGraph = ({ result }) => {
   };
 
   return (
-    <div style={{ height: '400px' }}> {/* Adjust the container height as needed */}
-      <h2 className="text-md">Skills Marks Bar Graph</h2>
+    <div style={{ height: '350px' }}> {/* Adjust the container height as needed */}
+      {/* <h2 className="text-md">Skills Marks Bar Graph</h2> */}
       <Bar data={data} options={options} />
     </div>
   );

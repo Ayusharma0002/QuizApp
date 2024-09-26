@@ -53,8 +53,9 @@
 }
 
 .result{
-    background-color: #ede9df;
+    background-color: var(--light);
     padding: 20px;
+    width: 50%;
     color: white !important;
     border-radius: 5px;
 }

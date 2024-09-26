@@ -20,6 +20,21 @@ input, select{
     color: var(--primary);
     border: 2px solid var(--primary) !important;
 }
+.secondary-contained-btn{
+    background-color: var(--secondary);
+    color: white;
+    border: none !important;
+    border-radius: 8px;
+    padding: 10px 20px;
+    cursor: pointer;
+    border: 2px solid var(--secondary) !important;
+}
+
+.secondary-contained-btn:hover{
+    background-color: white;
+    color: var(--secondary);
+    border: 2px solid var(--secondary) !important;
+}
 
 .primary-outlined-btn{
     background-color: white;
