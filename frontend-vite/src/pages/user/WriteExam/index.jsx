@@ -304,7 +304,7 @@ function WriteExam() {
                 >
                   Close
                 </button>
-                <a href='../../../public/report.pdf' download>
+                <a href='/report.pdf' download>
                   <button className='primary-contained-btn'>
                     Download Complete Report
                   </button>
