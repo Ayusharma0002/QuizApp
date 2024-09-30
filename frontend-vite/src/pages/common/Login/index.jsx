@@ -73,7 +73,7 @@ function LoginPage() {
               <input type="password" placeholder='Enter your password' required />
             </Form.Item>
             <div className='flex flex-col gap-2'>
-              <button type="submit" className='primary-contained-btn mt-2 w-100'>Login</button>
+              <button type="submit" className='primary-contained-btn text-xl mt-2 w-100'>Login</button>
               <Link to="/register">
                 Don't have an account? Register Here
               </Link>

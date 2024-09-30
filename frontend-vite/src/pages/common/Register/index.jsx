@@ -55,7 +55,7 @@ function RegisterPage() {
               <input type="password" placeholder='Enter your confirm password' required />
             </Form.Item>
             <div className='flex flex-col gap-2'>
-              <button type="submit" className='primary-contained-btn mt-2 w-100'>Register</button>
+              <button type="submit" className='primary-contained-btn text-xl mt-2 w-100'>Register</button>
               <Link to="/login">
                 Already have an account? Login Here
               </Link>

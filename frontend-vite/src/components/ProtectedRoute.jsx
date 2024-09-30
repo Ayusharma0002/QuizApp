@@ -200,12 +200,12 @@ function ProtectedRoute({ children }) {
       icon: <i className="ri-home-line"></i>,
       onClick: () => navigate("/")
     },
-    {
-      title: "Reports",
-      paths: ["/user/reports"],
-      icon: <i className="ri-bar-chart-line"></i>,
-      onClick: () => navigate("/user/reports")
-    },
+    // {
+    //   title: "Reports",
+    //   paths: ["/user/reports"],
+    //   icon: <i className="ri-bar-chart-line"></i>,
+    //   onClick: () => navigate("/user/reports")
+    // },
     // {
     //   title: "Profile",
     //   paths: ["/profile"],
@@ -318,7 +318,7 @@ function ProtectedRoute({ children }) {
           <div className='cursor-pointer toggle-icon' onClick={() => setCollapsed(!collapsed)}>
             <i className="ri-close-line text-3xl"></i>
           </div>
-          <div className='menu text-black'>
+          <div className='menu text-black text-xl'>
             {menu.map((item, index) => (
               <div
                 className={`menu-item ${getIsActiveOrNot(item.paths) && "active-menu-item"}`}
