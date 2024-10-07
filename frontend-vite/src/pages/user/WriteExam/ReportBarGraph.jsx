@@ -86,8 +86,189 @@
 
 
 
+//ye below code bilkul sahi h
+// import React from 'react';
+// import { Pie } from 'react-chartjs-2';
+// import {
+//   Chart as ChartJS,
+//   ArcElement,
+//   Tooltip,
+//   Legend,
+// } from 'chart.js';
 
-import React from 'react';
+// // Register Chart.js components
+// ChartJS.register(ArcElement, Tooltip, Legend);
+
+// const ReportPieChart = ({ result }) => {
+//   // Calculate total marks
+//   const totalMarks = result.technical + result.human + result.conceptual;
+
+//   // Data for the pie chart
+//   const data = {
+//     labels: ['Technical Skills', 'Human Skills', 'Conceptual Skills'],
+//     datasets: [
+//       {
+//         label: 'Marks',
+//         data: [
+//           (result.technical / totalMarks) * 100,
+//           (result.human / totalMarks) * 100,
+//           (result.conceptual / totalMarks) * 100
+//         ],
+//         backgroundColor: ['#1890ff', '#73d13d', '#ffa940'],
+//         borderColor: ['#ffffff'], // Optional: border color for segments
+//         borderWidth: 1,
+//       },
+//     ],
+//   };
+
+//   const options = {
+//     responsive: true,
+//     plugins: {
+//       legend: {
+//         position: 'top',
+//       },
+//       tooltip: {
+//         callbacks: {
+//           label: (tooltipItem) => {
+//             const percentage = tooltipItem.raw.toFixed(2); // Format to two decimal places
+//             return `${tooltipItem.label}: ${percentage}%`; // Custom tooltip label
+//           },
+//         },
+//       },
+//     },
+//   };
+
+//   return (
+//     <div style={{ 
+//         display: 'flex', 
+//         justifyContent: 'center', 
+//         alignItems: 'center', 
+//         height: '350px' 
+//       }}>
+//       <div style={{ width: '300px', height: '300px' }}>
+//         <Pie data={data} options={options} />
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default ReportPieChart;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import React from 'react';
+// import { Pie } from 'react-chartjs-2';
+// import {
+//   Chart as ChartJS,
+//   ArcElement,
+//   Tooltip,
+//   Legend,
+// } from 'chart.js';
+
+// // Register Chart.js components
+// ChartJS.register(ArcElement, Tooltip, Legend);
+
+// const ReportPieChart = ({ result }) => {
+//   // Calculate total marks
+//   const totalMarks = result.technical + result.human + result.conceptual;
+
+//   // Data for the pie chart
+//   const data = {
+//     labels: ['Technical Skills', 'Human Skills', 'Conceptual Skills'],
+//     datasets: [
+//       {
+//         label: 'Marks',
+//         data: [
+//           (result.technical / totalMarks) * 100,
+//           (result.human / totalMarks) * 100,
+//           (result.conceptual / totalMarks) * 100
+//         ],
+//         backgroundColor: ['#1890ff', '#73d13d', '#ffa940'],
+//         borderColor: ['#ffffff'], // Optional: border color for segments
+//         borderWidth: 1,
+//       },
+//     ],
+//   };
+
+//   const options = {
+//     responsive: true,
+//     plugins: {
+//       legend: {
+//         position: 'top',
+//       },
+//       tooltip: {
+//         callbacks: {
+//           label: (tooltipItem) => {
+//             const percentage = tooltipItem.raw.toFixed(2); // Format to two decimal places
+//             return `${tooltipItem.label}: ${percentage}%`; // Custom tooltip label
+//           },
+//         },
+//       },
+//     },
+//   };
+
+//   return (
+//     <div
+//       id="report-chart"  // Added this ID to the container
+//       style={{ 
+//         display: 'flex', 
+//         justifyContent: 'center', 
+//         alignItems: 'center', 
+//         height: '350px' 
+//       }}
+//     >
+//       <div style={{ width: '300px', height: '300px' }}>
+//         <Pie data={data} options={options} />
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default ReportPieChart;
+import React, { useEffect, useRef } from 'react';
 import { Pie } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -138,13 +319,27 @@ const ReportPieChart = ({ result }) => {
     },
   };
 
+  // Ref for the chart container
+  const chartRef = useRef();
+
+  useEffect(() => {
+    // Log the dimensions of the chartRef after it mounts
+    if (chartRef.current) {
+      console.log('Chart dimensions:', chartRef.current.getBoundingClientRect());
+    }
+  }, [result]);
+
   return (
-    <div style={{ 
+    <div
+      id="report-chart"  // Added this ID to the container
+      ref={chartRef}     // Attach the ref to the container
+      style={{ 
         display: 'flex', 
         justifyContent: 'center', 
         alignItems: 'center', 
         height: '350px' 
-      }}>
+      }}
+    >
       <div style={{ width: '300px', height: '300px' }}>
         <Pie data={data} options={options} />
       </div>

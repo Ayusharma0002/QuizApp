@@ -699,6 +699,7 @@
 
 const express = require('express');
 const mongoose = require('mongoose');
+const pdfMake = require('pdfmake');
 const nodemailer = require('nodemailer');
 require('dotenv').config();
 const bodyParser = require('body-parser');
@@ -747,6 +748,99 @@ const transporter = nodemailer.createTransport({
       pass: 'vegrxnmdqxdiuxnn'
     }
   });
+//   const generatePdf = async (user) => {
+//     const pdfContent = [
+//         {
+//             text: `Dear ${user.username},`,
+//             style: 'header',
+//         },
+//         {
+//             text: `Your score for the ${user.testName} test is: ${user.testScore}`,
+//             style: 'bodyText',
+//         },
+//     ];
+
+//     const pdfDoc = pdfMake.createPdf({ content: pdfContent });
+//     const pdfBuffer = await new Promise((resolve, reject) => {
+//         pdfDoc.getBuffer((buffer) => {
+//             resolve(buffer);
+//         });
+//     });
+
+//     return pdfBuffer;
+// };
+
+// app.post('/sendResults', async (req, res) => {
+//     const { email, quizTitle, results, userId } = req.body;
+
+//     // Validate input
+//     if (!email || !quizTitle || !results || !userId) {
+//         return res.status(400).json({ message: 'Missing required fields' });
+//     }
+
+//     try {
+//         // Fetch user from the database using userId
+//         const user = await User.findById(userId);
+//         if (!user) {
+//             return res.status(404).json({ message: 'User not found' });
+//         }
+
+//         // Generate PDF from user test results
+//         const pdfBuffer = await generatePdf(user);
+
+//         const mailOptions = {
+//             from: 'aayusharma90009@gmail.com',
+//             to: email,
+//             subject: `Your Results for ${quizTitle} Quiz`,
+//             html: `
+//               <html>
+//                 <body style="font-family: Arial, sans-serif; color: #333; padding: 20px; background-color: #f4f4f4;">
+//                   <div style="max-width: 600px; margin: 0 auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+//                     <h2 style="color: #007bff;">Thank You for Attempting the ${quizTitle} Quiz!</h2>
+//                     <p>Below are your results:</p>
+//                     <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+//                       <tr style="background-color: #f9f9f9;">
+//                         <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Category</th>
+//                         <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Marks</th>
+//                       </tr>
+//                       <tr>
+//                         <td style="padding: 10px; border-bottom: 1px solid #ddd;">Technical Skills</td>
+//                         <td style="padding: 10px; border-bottom: 1px solid #ddd;">${results.technical}</td>
+//                       </tr>
+//                       <tr>
+//                         <td style="padding: 10px; border-bottom: 1px solid #ddd;">Human Skills</td>
+//                         <td style="padding: 10px; border-bottom: 1px solid #ddd;">${results.human}</td>
+//                       </tr>
+//                       <tr>
+//                         <td style="padding: 10px; border-bottom: 1px solid #ddd;">Conceptual Skills</td>
+//                         <td style="padding: 10px;">${results.conceptual}</td>
+//                       </tr>
+//                     </table>
+//                     <p style="margin-top: 20px;">Thank you for participating in our quiz. We hope you found it insightful.</p>
+//                     <p>Best Regards,<br>Samvit Shikshan Private Limited</p>
+//                   </div>
+//                 </body>
+//               </html>
+//             `,
+//             attachments: [
+//                 {
+//                     filename: 'test-result.pdf',
+//                     content: pdfBuffer,
+//                     contentType: 'application/pdf',
+//                 },
+//             ],
+//         };
+
+//         // Send email with results and PDF
+//         await transporter.sendMail(mailOptions);
+//         res.status(200).send('Email sent successfully');
+//     } catch (error) {
+//         console.error('Error sending email:', error);
+//         res.status(500).send('Failed to send email');
+//     }
+// });
+
+// ye sahi hai bilkul send result upr jo code lik ra vo pdf se realted lik ra
 app.post('/sendResults', async (req, res) => {
     // console.log("tututututuu")
     const { email, quizTitle, results } = req.body;
@@ -1555,3 +1649,105 @@ app.listen(PORT, () => {
 //     "66dee150b7f677b769c6ed28",
 //     "66dee150b7f677b769c6ed2f",
 //     "66dee150b7f677b769c6ed36"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
