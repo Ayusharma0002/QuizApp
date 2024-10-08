@@ -386,6 +386,7 @@ import ReportBarGraph from './ReportBarGraph';
 import { PDFDocument, rgb } from 'pdf-lib';
 import html2canvas from 'html2canvas';
 import { saveAs } from 'file-saver';
+import Report from '../Reports/Report';
 
 function WriteExam() {
   const [examData, setExamData] = useState();
@@ -399,6 +400,9 @@ function WriteExam() {
   const navigate = useNavigate();
   const [result, setResult] = useState({ technical: 0, human: 0, conceptual: 0 });
 
+
+
+
   const optionLabels = [
     'Not True',
     'Seldom True',
@@ -408,6 +412,7 @@ function WriteExam() {
   ];
 
   const getExamDataById = async (id) => {
+    
     try {
       dispatch(ShowLoading());
       const response = await getExamById(id);
@@ -426,10 +431,15 @@ function WriteExam() {
   };
 
   useEffect(() => {
-    if (id) {
+    if (id && user) {
+      // console.log(`Kya haal hai ashwini bhai ${user}`);
+      console.log(`Kya haal hai ashwini bhai ${user.name}`);  // if user has a 'name' property
+
+
       getExamDataById(id);
     }
-  }, [id]);
+  }, [id, user]);
+  
 
   const calculateResult = () => {
     const categoryScores = {
@@ -486,335 +496,6 @@ function WriteExam() {
     }
   };
 
-  // const updateExistingPDF = async () => {
-  //   try {
-  //     // Fetch the existing PDF file from the public folder
-  //     const existingPdfBytes = await fetch('/report.pdf').then((res) =>
-  //       res.arrayBuffer()
-  //     );
-  
-  //     // Load the PDF with pdf-lib
-  //     const pdfDoc = await PDFDocument.load(existingPdfBytes);
-  
-  //     // Get the pages of the PDF
-  //     const pages = pdfDoc.getPages();
-  //     const lastPage = pages[pages.length - 1]; // Get the last page to add the graph
-  
-  //     // Replace <Participant Name> with the actual user's name
-  //     const userName = user.name || 'Participant';
-  //     const page = pages[0]; // Assuming the name is on the first page
-  //     page.drawText(userName, {
-  //       x: 150, // Set x coordinate based on where the name is located
-  //       y: 700, // Set y coordinate based on where the name is located
-  //       size: 12,
-  //       color: rgb(0, 0, 0),
-  //     });
-  
-  //     // Capture the graph as an image using html2canvas
-  //     const chartElement = document.getElementById('report-chart');
-      
-  //     // Ensure the chartElement exists before trying to use html2canvas
-  //     if (chartElement) {
-  //       const canvas = await html2canvas(chartElement);
-  //       const imgData = canvas.toDataURL('image/png');
-  
-  //       // Add the graph image to the last page of the PDF
-  //       const pngImage = await pdfDoc.embedPng(imgData);
-  //       const pngDims = pngImage.scale(0.5); // Scale the image
-  
-  //       lastPage.drawImage(pngImage, {
-  //         x: 50,
-  //         y: 300, // Adjust these coordinates as needed
-  //         width: pngDims.width,
-  //         height: pngDims.height,
-  //       });
-  
-  //       // Serialize the updated PDF
-  //       const pdfBytes = await pdfDoc.save();
-  
-  //       // Trigger download of the updated PDF
-  //       const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-  //       saveAs(blob, 'updated-report.pdf');
-  //     } else {
-  //       console.error('Error: report-chart element not found.');
-  //     }
-  //   } catch (error) {
-  //     console.error('Error updating PDF:', error);
-  //   }
-  // };
- 
-
-const updateExistingPDF = async () => {
-  // console.log(user);
-  console.log("mai hoon use  updateExistingPDF")
-      console.log(user);
-  try {
-    // Fetch the existing PDF file from the public folder
-    const existingPdfBytes = await fetch('/report.pdf').then((res) =>
-      res.arrayBuffer()
-    );
-
-    // Load the PDF with pdf-lib
-    const pdfDoc = await PDFDocument.load(existingPdfBytes);
-
-    // Get the pages of the PDF
-    const pages = pdfDoc.getPages();
-    console.log(`Total number of pages: ${pages.length}`); // Log the number of pages
-
-    const lastPageIndex = 7; // Index for the 8th page
-    if (lastPageIndex < pages.length) {
-      const lastPage = pages[lastPageIndex]; // Get the 8th page to add the graph
-      const LastPage=pages[6];
-
-      // Replace <Participant Name> with the actual user's name
-      // const userName = user?.name || 'Participant'; // Check if user has a name property
-      // const userName = user?.name || 'Participant'; 
-      const userName=user.name;
-      const textToReplace = '<Participant Name>'; // Placeholder text to replace
-
-      
-      // Measure the size of the text to replace
-      const textWidth = lastPage.getWidth() - 50; // Setting a width for placement
-      const textHeight = 12; // Font size
-      const placeholderHeight = 700; // Y coordinate where the placeholder is located
-
-
-      for (let i = 0; i < pages.length; i++) {
-        const currentPage = pages[i];
-      
-        // Logic to replace text on page 6 (if needed)
-      
-        // Add user name to footer
-        const footerText = `Page ${i + 1} of ${pages.length} | Leadership Diagnostic Report | Situational Leadership | ${userName}`;
-        currentPage.drawText(footerText, {
-          x: 50,
-          y: currentPage.getHeight() - 20,
-          size: 8,
-          color: rgb(0, 0, 0),
-        });
-        // lastPage.drawText(footerText, {
-        //   x: 50, // Adjust X coordinate for footer placement
-        //   y: lastPage.getHeight() - 20, // Adjust Y coordinate for footer placement
-        //   // x: 100, // Adjust X coordinate for footer placement
-        //   // y: lastPage.getHeight() -30, // Adjust Y coordinate for footer placement
-        //   size: 8, // Adjust font size for footer
-        //   color: rgb(0, 0, 0), // Black color
-        // });
-      }
-
-      // Draw the user's name on the page
-      LastPage.drawText(userName, {
-        x: 120, // Set x coordinate based on where the name is located
-        y: placeholderHeight, // Set y coordinate based on where the name is located
-        size: textHeight,
-        color: rgb(0, 0, 0), // Black color
-      });
-
-      // Capture the graph as an image using html2canvas
-      const chartElement = document.getElementById('report-chart');
-
-      // Ensure the chartElement exists before trying to use html2canvas
-      if (chartElement) {
-        const canvas = await html2canvas(chartElement);
-        const imgData = canvas.toDataURL('image/png');
-
-        // Add the graph image to the last page of the PDF
-        const pngImage = await pdfDoc.embedPng(imgData);
-        const pngDims = pngImage.scale(0.5); // Scale the image
-
-        // Calculate positioning for the graph
-        const xPos = lastPage.getWidth() / 2 - pngDims.width / 2; // Center the graph
-        const yPos = lastPage.getHeight() - 300; // Adjust y position
-
-        // Draw a rectangle around the graph with a black border
-        lastPage.drawRectangle({
-          x: xPos - 5, // Slightly larger for border
-          y: yPos - 5,
-          width: pngDims.width + 10, // Slightly larger for border
-          height: pngDims.height + 10,
-          borderColor: rgb(0, 0, 0),
-          borderWidth: 1,
-          color: rgb(1, 1, 1), // White background
-        });
-
-        // Draw the chart image inside the rectangle
-        lastPage.drawImage(pngImage, {
-          x: xPos,
-          y: yPos,
-          width: pngDims.width,
-          height: pngDims.height,
-        });
-
-        // Calculate total marks
-        const totalMarks = result.technical + result.human + result.conceptual;
-
-        // Calculate percentages and round them
-        const technicalPercentage = Math.round((result.technical / totalMarks) * 100);
-        const humanPercentage = Math.round((result.human / totalMarks) * 100);
-        const conceptualPercentage = Math.round((result.conceptual / totalMarks) * 100);
-
-        // Adjust the position for percentage texts to be inside the rectangle
-        const percentageX = xPos + 10; // X position for percentage text
-        const percentageYStart = yPos - 60; // Start Y position for the first percentage text inside the rectangle
-
-        // Draw the percentage texts with different colors inside the rectangle
-        lastPage.drawText(`Technical: ${technicalPercentage}%`, {
-          x: percentageX,
-          y: percentageYStart,
-          size: 12,
-          color: rgb(24 / 255, 144 / 255, 255 / 255), // Technical Color
-        });
-        lastPage.drawText(`Human: ${humanPercentage}%`, {
-          x: percentageX,
-          y: percentageYStart - 20, // Move down for the next label
-          size: 12,
-          color: rgb(115 / 255, 209 / 255, 61 / 255), // Human Color
-        });
-        lastPage.drawText(`Conceptual: ${conceptualPercentage}%`, {
-          x: percentageX,
-          y: percentageYStart - 40, // Move down for the next label
-          size: 12,
-          color: rgb(255 / 255, 169 / 255, 64 / 255), // Conceptual Color
-        });
-
-        // Serialize the updated PDF
-        const pdfBytes = await pdfDoc.save();
-
-        // Trigger download of the updated PDF
-        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-        saveAs(blob, 'updated-report.pdf');
-      } else {
-        console.error('Error: report-chart element not found.');
-      }
-    } else {
-      console.error(`Error: The PDF does not have a page at index ${lastPageIndex}.`);
-    }
-  } catch (error) {
-    console.error('Error updating PDF:', error);
-  }
-};
-
-// const updateExistingPDF = async (user) => {
-//   // console.log(user);
-//   try {
-//     // Fetch the existing PDF file from the public folder
-//     const existingPdfBytes = await fetch('/report.pdf').then((res) =>
-//       res.arrayBuffer()
-//     );
-
-//     // Load the PDF with pdf-lib
-//     const pdfDoc = await PDFDocument.load(existingPdfBytes);
-
-//     // Get the pages of the PDF
-//     const pages = pdfDoc.getPages();
-//     console.log(`Total number of pages: ${pages.length}`); // Log the number of pages
-
-//     const lastPageIndex = 7; // Index for the 8th page
-//     if (lastPageIndex < pages.length) {
-//       const lastPage = pages[lastPageIndex]; // Get the 8th page to add the graph
-
-//       // Replace <Participant Name> with the actual user's name
-//       // const userName = user?.name || 'Participant'; // Check if user has a name property
-//       const userName = user?.name || 'Participant'; 
-//       const textToReplace = '<Participant Name>'; // Placeholder text to replace
-
-      
-//       // Measure the size of the text to replace
-//       const textWidth = lastPage.getWidth() - 50; // Setting a width for placement
-//       const textHeight = 12; // Font size
-//       const placeholderHeight = 700; // Y coordinate where the placeholder is located
-
-//       // Draw the user's name on the page
-//       lastPage.drawText(userName, {
-//         x: 150, // Set x coordinate based on where the name is located
-//         y: placeholderHeight, // Set y coordinate based on where the name is located
-//         size: textHeight,
-//         color: rgb(0, 0, 0), // Black color
-//       });
-
-//       // Capture the graph as an image using html2canvas
-//       const chartElement = document.getElementById('report-chart');
-
-//       // Ensure the chartElement exists before trying to use html2canvas
-//       if (chartElement) {
-//         const canvas = await html2canvas(chartElement);
-//         const imgData = canvas.toDataURL('image/png');
-
-//         // Add the graph image to the last page of the PDF
-//         const pngImage = await pdfDoc.embedPng(imgData);
-//         const pngDims = pngImage.scale(0.5); // Scale the image
-
-//         // Calculate positioning for the graph
-//         const xPos = lastPage.getWidth() / 2 - pngDims.width / 2; // Center the graph
-//         const yPos = lastPage.getHeight() - 300; // Adjust y position
-
-//         // Draw a rectangle around the graph with a black border
-//         lastPage.drawRectangle({
-//           x: xPos - 5, // Slightly larger for border
-//           y: yPos - 5,
-//           width: pngDims.width + 10, // Slightly larger for border
-//           height: pngDims.height + 10,
-//           borderColor: rgb(0, 0, 0),
-//           borderWidth: 1,
-//           color: rgb(1, 1, 1), // White background
-//         });
-
-//         // Draw the chart image inside the rectangle
-//         lastPage.drawImage(pngImage, {
-//           x: xPos,
-//           y: yPos,
-//           width: pngDims.width,
-//           height: pngDims.height,
-//         });
-
-//         // Calculate total marks
-//         const totalMarks = result.technical + result.human + result.conceptual;
-
-//         // Calculate percentages and round them
-//         const technicalPercentage = Math.round((result.technical / totalMarks) * 100);
-//         const humanPercentage = Math.round((result.human / totalMarks) * 100);
-//         const conceptualPercentage = Math.round((result.conceptual / totalMarks) * 100);
-
-//         // Adjust the position for percentage texts to be inside the rectangle
-//         const percentageX = xPos + 10; // X position for percentage text
-//         const percentageYStart = yPos - 60; // Start Y position for the first percentage text inside the rectangle
-
-//         // Draw the percentage texts with different colors inside the rectangle
-//         lastPage.drawText(`Technical: ${technicalPercentage}%`, {
-//           x: percentageX,
-//           y: percentageYStart,
-//           size: 12,
-//           color: rgb(24 / 255, 144 / 255, 255 / 255), // Technical Color
-//         });
-//         lastPage.drawText(`Human: ${humanPercentage}%`, {
-//           x: percentageX,
-//           y: percentageYStart - 20, // Move down for the next label
-//           size: 12,
-//           color: rgb(115 / 255, 209 / 255, 61 / 255), // Human Color
-//         });
-//         lastPage.drawText(`Conceptual: ${conceptualPercentage}%`, {
-//           x: percentageX,
-//           y: percentageYStart - 40, // Move down for the next label
-//           size: 12,
-//           color: rgb(255 / 255, 169 / 255, 64 / 255), // Conceptual Color
-//         });
-
-//         // Serialize the updated PDF
-//         const pdfBytes = await pdfDoc.save();
-
-//         // Trigger download of the updated PDF
-//         const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-//         saveAs(blob, 'updated-report.pdf');
-//       } else {
-//         console.error('Error: report-chart element not found.');
-//       }
-//     } else {
-//       console.error(`Error: The PDF does not have a page at index ${lastPageIndex}.`);
-//     }
-//   } catch (error) {
-//     console.error('Error updating PDF:', error);
-//   }
-// };  
   useEffect(() => {
     if (view === 'result') {
       // console.log("mai hoon use effect")
@@ -924,7 +605,9 @@ const updateExistingPDF = async () => {
                 <button className='secondary-contained-btn' onClick={() => navigate('/')}>
                   Close
                 </button>
-                <button className='primary-contained-btn' onClick={updateExistingPDF}>
+                <Report result={result} userName={user?.name}/> 
+
+                <button className='primary-contained-btn'>
                   Download PDF
                 </button>
               </div>

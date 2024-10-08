@@ -11,8 +11,8 @@ import RegisterPage from './pages/common/Register';
 import HomePage from './pages/common/Home';
 import ProtectedRoute from './components/ProtectedRoute';
 import PublicRoute from './components/PublicRoute';
-import ReportsPage from './pages/user/Reports';
-import ProfilePage from './pages/user/Profile';
+// import ReportsPage from './pages/user/Reports';
+// import ProfilePage from './pages/user/Profile';
 import ExamsPage from './pages/admin/Exams';
 import AddEditExam from './pages/admin/Exams/AddEditExam';
 import Loader from './components/Loader';
@@ -46,7 +46,7 @@ function App() {
 
         <Route path="/admin/exams/edit/:id" element={<ProtectedRoute><AddEditExam/></ProtectedRoute>}/>
         {/* <Route path="/user/reports" element={<ProtectedRoute><ReportsPage/></ProtectedRoute>}/> */}
-        {/* <Route path="/admin/reports" element={<ProtectedRoute><AdminReportsPage/></ProtectedRoute>}/> */}
+        <Route path="/admin/reports" element={<ProtectedRoute><AdminReportsPage/></ProtectedRoute>}/>
         {/* <Route path="/profile" element={<ProtectedRoute><ProfilePage/></ProtectedRoute>}/> */}
         <Route path="/user/write-exam/:id" element={<ProtectedRoute><WriteExam/></ProtectedRoute>}/>
       </Routes>

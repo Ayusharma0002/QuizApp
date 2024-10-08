@@ -709,6 +709,8 @@ const cors = require('cors'); // Importing CORS
 const Question = require('./models/Question');
 const Quiz = require('./models/Quiz');
 const Answer = require('./models/Answer');
+const User = require('./models/userModel');
+
 const userRoute = require("./routes/userRoutes");
 // const emailRoutes = require("./routes/emailRoutes"); // Import the email routes
 
@@ -725,7 +727,8 @@ app.use("/api/users", userRoute);
 // app.use("/api/email", emailRoutes); // Use the email routes
 
 // MongoDB Connection
-mongoose.connect('mongodb://localhost:27017/quizdb', {
+// mongoose.connect('mongodb://localhost:27017/quizdb', {
+mongoose.connect('mongodb://localhost:27017/quizdatabase', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => {
@@ -1392,6 +1395,65 @@ app.post('/quiz/:quizId/answer', async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 });
+
+/// Admin Reports Route
+app.get('/admin/reports', async (req, res) => {
+    try {
+        // Use aggregation to get unique quizId and userId pairs from Answer model
+        const attempts = await Answer.aggregate([
+            {
+                $group: {
+                    _id: { quizId: "$quizId", userId: "$userId" }
+                }
+            }
+        ]);
+
+        console.log(attempts);
+
+        // Prepare the report for each user and their quiz
+        const reports = await Promise.all(
+            attempts.map(async (attempt) => {
+                const { userId, quizId } = attempt._id;
+
+                // Generate the report for technical, conceptual, human skills using the generateReport function
+                const report = await generateReport(userId, quizId);
+
+                // Fetch the user's info (name, phone number, and email)
+                const user = await User.findById(userId);
+
+                // Fetch the quiz title
+                const quiz = await Quiz.findById(quizId);
+
+                // If user or quiz is not found, skip this entry
+                if (!user || !quiz) return null;
+
+                return {
+                    userName: user.name,
+                    userPhone: user.PhoneNumber,  // Fetch user's phone number
+                    userEmail: user.email,        // Fetch user's email
+                    quizTitle: quiz.title,
+                    report // This will include scores for Technical, Conceptual, and Human skills
+                };
+            })
+        );
+
+        // Filter out any null results in case a user or quiz wasn't found
+        const filteredReports = reports.filter(report => report !== null);
+
+        return res.status(200).json({
+            success: true,
+            data: filteredReports
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: 'Internal server error',
+            error: error.message
+        });
+    }
+});
+
 
 // Start the server
 app.listen(PORT, () => {
