@@ -305,11 +305,11 @@ const Report = ({ result , userName }) => {
             </div>
             )}
  
-            <button onClick={()=>{
+            <button className='primary-contained-btn' onClick={()=>{
                 // setShowContent(true)
                 handleDownloadPdf()
             }
-            } style={{ marginTop: '20px' }}>Download as PDF</button>
+            } style={{ marginTop: '20px' }}>Download  Report</button>
         </div>
     );
 };

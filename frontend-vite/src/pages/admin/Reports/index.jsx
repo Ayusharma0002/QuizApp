@@ -343,33 +343,33 @@ function AdminReportsPage() {
       dataIndex: "humanScore",
       render: (text, record) => <>{record.report["Human Skills"] || 0}</>,
     },
-    {
-      title: "Download Report",
-      dataIndex: "downloadReport",
-      render: (text, record) => (
-        <button
-          onClick={() => downloadReport()}
-          style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#1890ff', display: 'flex', alignItems: 'center' }}
-        >
-          <span className="material-icons" style={{ fontSize: '20px', marginRight: '4px' }}>file_download</span>
-          Download
-        </button>
-      ),
-    },
+    // {
+    //   title: "Download Report",
+    //   dataIndex: "downloadReport",
+    //   render: (text, record) => (
+    //     <button
+    //       onClick={() => downloadReport()}
+    //       style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#1890ff', display: 'flex', alignItems: 'center' }}
+    //     >
+    //       <span className="material-icons" style={{ fontSize: '20px', marginRight: '4px' }}>file_download</span>
+    //       Download
+    //     </button>
+    //   ),
+    // },
   ];
 
   // Function to handle report download
-  const downloadReport = () => {
-    // URL for the report file located in the public folder
-    const url = '/reports.pdf'; // Directly referencing the file
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'reports.pdf'; // Specify the file name
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    message.success("Report downloaded successfully!");
-  };
+  // const downloadReport = () => {
+  //   // URL for the report file located in the public folder
+  //   const url = '/reports.pdf'; // Directly referencing the file
+  //   const a = document.createElement('a');
+  //   a.href = url;
+  //   a.download = 'reports.pdf'; // Specify the file name
+  //   document.body.appendChild(a);
+  //   a.click();
+  //   a.remove();
+  //   message.success("Report downloaded successfully!");
+  // };
 
   // Update the getData function to fetch new report structure
   const getData = async (tempFilters) => {

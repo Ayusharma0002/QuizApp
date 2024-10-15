@@ -1,4 +1,3 @@
-import axiosInstance from ".";
 
 // export const addExam = async(payload) => {
 //     try{
@@ -32,6 +31,8 @@ import axiosInstance from ".";
 //         return error.response ? error.response.data : { message: "An error occurred" };
 //     }
 // }
+import axiosInstance from ".";
+
 export const addExam = async (payload) => {
     try {
       const response = await axiosInstance.post('/quiz', payload);

@@ -704,6 +704,7 @@ const nodemailer = require('nodemailer');
 require('dotenv').config();
 const bodyParser = require('body-parser');
 const cors = require('cors'); // Importing CORS
+const path = require('path');
 
 // Import the models
 const Question = require('./models/Question');
@@ -724,6 +725,9 @@ app.use(bodyParser.json());
 app.use(express.json());
 
 app.use("/api/users", userRoute);
+
+
+
 // app.use("/api/email", emailRoutes); // Use the email routes
 
 // MongoDB Connection
@@ -1425,7 +1429,7 @@ app.get('/admin/reports', async (req, res) => {
                 const quiz = await Quiz.findById(quizId);
 
                 // If user or quiz is not found, skip this entry
-                if (!user || !quiz) return null;
+                if (!user || !quiz || user.isAdmin) return null;
 
                 return {
                     userName: user.name,
