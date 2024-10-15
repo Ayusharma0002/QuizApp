@@ -67,7 +67,7 @@ import './stylesheets/theme.css'
 import './stylesheets/custom-components.css'
 import './stylesheets/form-elements.css'
 import './stylesheets/layout.css'
-import { BrowserRouter as Router, Routes, Route ,Navigate} from 'react-router-dom';
+import { HashRouter as Router, Routes, Route ,Navigate} from 'react-router-dom';
 import LoginPage from './pages/common/Login';
 import RegisterPage from './pages/common/Register';
 import HomePage from './pages/common/Home';
@@ -101,6 +101,7 @@ function App() {
           <Route path="/admin/exams/edit/:id" element={<ProtectedRoute><AddEditExam /></ProtectedRoute>} />
           <Route path="/admin/reports" element={<ProtectedRoute><AdminReportsPage /></ProtectedRoute>} />
           <Route path="/user/write-exam/:id" element={<ProtectedRoute><WriteExam /></ProtectedRoute>} />
+          
 
           {/* Catch-all route that redirects to the home page */}
           <Route path="*" element={<Navigate to="/" replace />} />

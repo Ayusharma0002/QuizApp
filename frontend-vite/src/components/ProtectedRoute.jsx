@@ -295,21 +295,39 @@ function ProtectedRoute({ children }) {
     }
   }, []);
 
-  const activeRoute = window.location.pathname;
-  const getIsActiveOrNot = (paths) => {
-    if (paths.includes(activeRoute)) {
-      return true;
+ 
+//   const activeRoute = window.location.hash; // Using hash instead of pathname
+// const getIsActiveOrNot = (paths) => {
+//   return paths.some(path => activeRoute.includes(path));
+// };
+const activeRoute = window.location.hash.replace('#', ''); // Remove the hash prefix
+
+const getIsActiveOrNot = (paths) => {
+  // Check if the current active route matches any of the paths
+  return paths.some(path => {
+    if (path.includes(':id')) {
+      // Handle dynamic routes like /user/write-exam/:id
+      return activeRoute.startsWith(path.replace(':id', ''));
     }
-    else {
-      if (activeRoute.includes("/admin/exams/edit") && paths.includes("/admin/exams")) {
-        return true
-      }
-      if (activeRoute.includes("/user/write-exam/:id") && paths.includes("/user/write-exam/:id")) {
-        return true
-      }
-      return false;
-    }
-  }
+    return activeRoute === path;
+  });
+};
+
+
+  // const getIsActiveOrNot = (paths) => {
+  //   if (paths.includes(activeRoute)) {
+  //     return true;
+  //   }
+  //   else {
+  //     if (activeRoute.includes("/admin/exams/edit") && paths.includes("/admin/exams")) {
+  //       return true
+  //     }
+  //     if (activeRoute.includes("/user/write-exam/:id") && paths.includes("/user/write-exam/:id")) {
+  //       return true
+  //     }
+  //     return false;
+  //   }
+  // }
 
   return (
     user && (
