@@ -296,10 +296,6 @@ function ProtectedRoute({ children }) {
   }, []);
 
  
-//   const activeRoute = window.location.hash; // Using hash instead of pathname
-// const getIsActiveOrNot = (paths) => {
-//   return paths.some(path => activeRoute.includes(path));
-// };
 const activeRoute = window.location.hash.replace('#', ''); // Remove the hash prefix
 
 const getIsActiveOrNot = (paths) => {
@@ -314,21 +310,7 @@ const getIsActiveOrNot = (paths) => {
 };
 
 
-  // const getIsActiveOrNot = (paths) => {
-  //   if (paths.includes(activeRoute)) {
-  //     return true;
-  //   }
-  //   else {
-  //     if (activeRoute.includes("/admin/exams/edit") && paths.includes("/admin/exams")) {
-  //       return true
-  //     }
-  //     if (activeRoute.includes("/user/write-exam/:id") && paths.includes("/user/write-exam/:id")) {
-  //       return true
-  //     }
-  //     return false;
-  //   }
-  // }
-
+ 
   return (
     user && (
       <div className='layout'>

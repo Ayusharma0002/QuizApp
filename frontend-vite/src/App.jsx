@@ -101,10 +101,10 @@ function App() {
           <Route path="/admin/exams/edit/:id" element={<ProtectedRoute><AddEditExam /></ProtectedRoute>} />
           <Route path="/admin/reports" element={<ProtectedRoute><AdminReportsPage /></ProtectedRoute>} />
           <Route path="/user/write-exam/:id" element={<ProtectedRoute><WriteExam /></ProtectedRoute>} />
-          
+
 
           {/* Catch-all route that redirects to the home page */}
-          <Route path="*" element={<Navigate to="/" replace />} />
+          {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
         </Routes>
       </Router>
     </>
